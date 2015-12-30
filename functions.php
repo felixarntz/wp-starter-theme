@@ -50,4 +50,4 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 }
 
 // run the theme
-add_action( 'after_setup_theme', array( call_user_func( 'WPStarterTheme\Base\Theme', 'instance' ), 'run' ) );
+call_user_func( 'WPStarterTheme\Base\Theme', 'instance' )->run();

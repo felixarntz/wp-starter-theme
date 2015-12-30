@@ -21,6 +21,10 @@ final class Theme {
 	public function run() {
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 	}
+
+	public function after_setup_theme() {
+
+	}
 }
 
 require_once dirname( dirname( __FILE__ ) ) . '/functions.php';

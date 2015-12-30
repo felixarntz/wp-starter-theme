@@ -20,5 +20,7 @@
       "homepage": "http://leaves-and-love.net"
     }
   ],
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "~4.0.0"
+  }
 }
