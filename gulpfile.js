@@ -13,7 +13,8 @@ var config = {
 	version: pkg.version,
 	license: pkg.license.name,
 	licenseURI: pkg.license.url,
-	tags: pkg.keywords.join( ', ' )
+	tags: pkg.keywords.join( ', ' ),
+	translateURI: pkg.homepage
 };
 
 /* ---- DO NOT EDIT BELOW THIS LINE ---- */
@@ -35,7 +36,7 @@ var themeheader = 	'/*\n' +
 
 // header for all PHP files
 var phpheader = 	'/**\n' +
-					' * @package WPStarterTheme\n' +
+					' * @package ' + config.namespace + '\n' +
 					' * @version 1.0.0\n' +
 					' */';
 
@@ -92,14 +93,18 @@ gulp.task( 'watch', function() {
 });
 
 // build the theme
-gulp.task( 'build', [ 'version-replace', 'header-replace', 'default' ]);
+gulp.task( 'build', [ 'version-replace', 'header-replace' ], function() {
+	gulp.start( 'default' );
+});
 
 // set up the theme (only run this once after adjusting the config object!)
-gulp.task( 'install', [ 'bower-install', 'init-replace', 'composer-replace', 'build' ], function() {
+gulp.task( 'install', [ 'bower-install', 'init-replace' ], function() {
 	composer({
 		cwd: './',
 		bin: 'composer'
 	});
+
+	gulp.start( 'build' );
 });
 
 /* ---- SUB TASKS ---- */
@@ -114,12 +119,16 @@ gulp.task( 'sass', function( done ) {
 		.pipe( sass.minify({
 			keepSpecialComments: 0
 		}) )
-		.pipe( banner( assetheader ) )
 		.pipe( rename({
 			extname: '.min.css'
 		}) )
 		.pipe( gulp.dest( sass.dst ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( sass.dst + 'app.min.css', { base: './' } )
+				.pipe( banner( assetheader ) )
+				.pipe( gulp.dest( './' ) )
+				.on( 'end', done );
+		});
 });
 
 // compile JavaScript
@@ -131,12 +140,16 @@ gulp.task( 'js', function( done ) {
 		.pipe( js.concat( 'app.js' ) )
 		.pipe( gulp.dest( js.dst ) )
 		.pipe( js.minify() )
-		.pipe( banner( assetheader ) )
 		.pipe( rename({
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( js.dst ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( js.dst + 'app.min.js', { base: './' } )
+				.pipe( banner( assetheader ) )
+				.pipe( gulp.dest( './' ) )
+				.on( 'end', done );
+		});
 });
 
 // generate POT file
@@ -145,9 +158,9 @@ gulp.task( 'pot', function( done ) {
 		.pipe( sort() )
 		.pipe( wpPot({
 			domain: config.textdomain,
-			destFile: config.textdomain + '.pot',
+			destFile: './languages/' + config.textdomain + '.pot',
 			headers: {
-				'report-msgid-bugs-to': config.themeURI,
+				'report-msgid-bugs-to': config.translateURI,
 				'x-generator': 'gulp-wp-pot',
 				'x-poedit-basepath': '.',
 				'x-poedit-language': 'English',
@@ -169,15 +182,19 @@ gulp.task( 'init-replace', function( done ) {
 		.pipe( replace( 'WPStarterTheme', config.namespace ) )
 		.pipe( replace( 'wp-starter-theme', config.textdomain ) )
 		.pipe( gulp.dest( './' ) )
-		.on( 'end', done );
-});
-
-// replace the default namespace in composer.json with the one in the config object
-gulp.task( 'composer-replace', function( done ) {
-	gulp.src( './composer.json', { base: './' })
-		.pipe( replace( 'WPStarterTheme', config.namespace ) )
-		.pipe( gulp.dest( './' ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( './composer.json', { base: './' })
+				.pipe( replace( 'WPStarterTheme', config.namespace ) )
+				.pipe( gulp.dest( './' ) )
+				.on( 'end', function() {
+					gulp.src([ './inc/WPStarterTheme/**/*' ], { base: './' })
+						.pipe( rename(function( path ) {
+							path.dirname = path.dirname.replace( 'WPStarterTheme', config.namespace );
+						}) )
+						.pipe( gulp.dest( './' ) )
+						.on( 'end', done );
+				});
+		});
 });
 
 // replace the version header in all PHP files
@@ -192,7 +209,7 @@ gulp.task( 'version-replace', function( done ) {
 gulp.task( 'header-replace', function( done ) {
 	gulp.src( './style.css' )
 		.pipe( replace( /((?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:\/\/.*))/, themeheader ) )
-		.pipe( gulp.dest( './style.css' ) )
+		.pipe( gulp.dest( './' ) )
 		.on( 'end', done );
 });
 
