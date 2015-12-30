@@ -1,0 +1,24 @@
+{
+  "name": "wp-starter-theme",
+  "version": "1.0.0",
+  "description": "A WordPress starter theme using modern technologies.",
+  "keywords": [
+    "wordpress",
+    "theme",
+    "starter",
+    "library",
+    "namespaces",
+    "gulp",
+    "composer",
+    "bower"
+  ],
+  "homepage": "https://github.com/felixarntz/wp-starter-theme",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "http://leaves-and-love.net"
+    }
+  ],
+  "dependencies": {}
+}

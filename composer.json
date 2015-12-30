@@ -1,0 +1,46 @@
+{
+  "name": "felixarntz/wp-starter-theme",
+  "description": "A WordPress starter theme using modern technologies.",
+  "version": "1.0.0",
+  "license": "GPL-3.0",
+  "type": "wordpress-theme",
+  "keywords": [
+    "wordpress",
+    "theme",
+    "starter",
+    "library",
+    "namespaces",
+    "gulp",
+    "composer",
+    "bower"
+  ],
+  "homepage": "https://github.com/felixarntz/wp-starter-theme",
+  "authors": [
+    {
+      "name": "Felix Arntz",
+      "email": "felix-arntz@leaves-and-love.net",
+      "homepage": "http://leaves-and-love.net",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "felix-arntz@leaves-and-love.net",
+    "issues": "https://github.com/felixarntz/wp-starter-theme/issues"
+  },
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "WPStarterTheme\\": "inc/WPStarterTheme/"
+    },
+    "files": [
+      "inc/functions.php"
+    ]
+  },
+  "require": {
+    "composer/installers": "~1.0",
+    "felixarntz/wp-objects": "dev-master",
+    "felixarntz/options-definitely": "*"
+  }
+}
