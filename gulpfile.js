@@ -37,7 +37,7 @@ var themeheader = 	'/*\n' +
 // header for all PHP files
 var phpheader = 	'/**\n' +
 					' * @package ' + config.namespace + '\n' +
-					' * @version 1.0.0\n' +
+					' * @version ' + config.version + '\n' +
 					' */';
 
 // header for minified assets
