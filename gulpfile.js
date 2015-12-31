@@ -68,6 +68,7 @@ var sass = {
 	files: [ './assets/src/sass/**/*.scss' ],
 	src: './assets/src/sass/',
 	dst: './assets/dist/css/',
+	lint: require( 'gulp-csscomb' ),
 	compile: require( 'gulp-sass' ),
 	minify: require( 'gulp-minify-css' )
 };
@@ -115,20 +116,17 @@ gulp.task( 'sass', function( done ) {
 		.pipe( sass.compile({
 			errLogToConsole: true
 		}) )
+		.pipe( sass.lint() )
 		.pipe( gulp.dest( sass.dst ) )
 		.pipe( sass.minify({
 			keepSpecialComments: 0
 		}) )
+		.pipe( banner( assetheader ) )
 		.pipe( rename({
 			extname: '.min.css'
 		}) )
 		.pipe( gulp.dest( sass.dst ) )
-		.on( 'end', function() {
-			gulp.src( sass.dst + 'app.min.css', { base: './' } )
-				.pipe( banner( assetheader ) )
-				.pipe( gulp.dest( './' ) )
-				.on( 'end', done );
-		});
+		.on( 'end', done );
 });
 
 // compile JavaScript
@@ -140,16 +138,12 @@ gulp.task( 'js', function( done ) {
 		.pipe( js.concat( 'app.js' ) )
 		.pipe( gulp.dest( js.dst ) )
 		.pipe( js.minify() )
+		.pipe( banner( assetheader ) )
 		.pipe( rename({
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( js.dst ) )
-		.on( 'end', function() {
-			gulp.src( js.dst + 'app.min.js', { base: './' } )
-				.pipe( banner( assetheader ) )
-				.pipe( gulp.dest( './' ) )
-				.on( 'end', done );
-		});
+		.on( 'end', done );
 });
 
 // generate POT file
