@@ -24,7 +24,7 @@ final class Theme {
 
 	public function run() {
 		Util\Images::init();
-		Util\NavWalker::init();
+		Util\NavMenu::init();
 		Assets::instance()->run();
 
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );

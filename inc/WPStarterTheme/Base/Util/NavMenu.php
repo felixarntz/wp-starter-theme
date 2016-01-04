@@ -6,7 +6,7 @@
 
 namespace WPStarterTheme\Base\Util;
 
-final class NavWalker extends \Walker_Nav_Menu {
+final class NavMenu extends \Walker_Nav_Menu {
 	public function check_current( $classes ) {
 		return preg_match( '/(current[-_])|active|dropdown/', $classes );
 	}
@@ -40,6 +40,22 @@ final class NavWalker extends \Walker_Nav_Menu {
 		}
 
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+	}
+
+	public static function render( $args = array() ) {
+		if ( ! isset( $args['container'] ) ) {
+			$args['container'] = false;
+		}
+		if ( ! isset( $args['items_wrap'] ) ) {
+			$args['items_wrap'] = '<ul class="%2$s">%3$s</ul>';
+		}
+
+		if ( isset( $args['theme_location'] ) && 'primary' === $args['theme_location'] ) {
+			$args['depth'] = 2;
+			$args['walker'] = new self();
+		}
+
+		return \wp_nav_menu( $args );
 	}
 
 	public static function init() {

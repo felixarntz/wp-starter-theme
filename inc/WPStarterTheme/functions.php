@@ -15,19 +15,7 @@ function add_image_size( $name, $width, $height, $crop = false, $selectable = fa
 }
 
 function wp_nav_menu( $args = array() ) {
-	if ( ! isset( $args['container'] ) ) {
-		$args['container'] = false;
-	}
-	if ( ! isset( $args['items_wrap'] ) ) {
-		$args['items_wrap'] = '<ul class="%2$s">%3$s</ul>';
-	}
-
-	if ( isset( $args['theme_location'] ) && 'primary' === $args['theme_location'] ) {
-		$args['depth'] = 2;
-		$args['walker'] = new Base\Util\NavWalker();
-	}
-
-	return \wp_nav_menu( $args );
+	return Base\Util\NavMenu::render( $args );
 }
 
 function get_template_part( $slug, $args = array(), $echo = true, $cache = true ) {
