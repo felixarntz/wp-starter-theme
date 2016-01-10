@@ -39,14 +39,8 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 	// load the Options Definitely plugin
 	require_once dirname( __FILE__ ) . '/vendor/felixarntz/options-definitely/options-definitely.php';
 
-	// load the WP Objects plugin textdomain if it hasn't been loaded yet
-	if ( ! is_textdomain_loaded( 'wp-objects' ) ) {
-		$locale = get_locale();
-
-		if ( file_exists( dirname( __FILE__ ) . '/vendor/felixarntz/wp-objects/languages/wp-objects-' . $locale . '.mo' ) ) {
-			load_textdomain( 'wp-objects', dirname( __FILE__ ) . '/vendor/felixarntz/wp-objects/languages/wp-objects-' . $locale . '.mo' );
-		}
-	}
+	// load the WP Objects plugin
+	require_once dirname( __FILE__ ) . '/vendor/felixarntz/wp-objects/wp-objects.php';
 }
 
 // run the theme
