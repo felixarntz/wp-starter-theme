@@ -33,10 +33,7 @@
   "autoload": {
     "psr-4": {
       "WPStarterTheme\\": "inc/WPStarterTheme/"
-    },
-    "files": [
-      "inc/functions.php"
-    ]
+    }
   },
   "require": {
     "composer/installers": "~1.0",
