@@ -1,3 +1,5 @@
+/* BOOTSTRAP */
+
 $gray-dark:                 #373a3c;
 $gray:                      #55595c;
 $gray-light:                #818a91;
@@ -37,3 +39,18 @@ $enable-rounded: false;
 
 @import "../../vendor/bootstrap/scss/utilities";
 @import "../../vendor/bootstrap/scss/utilities-responsive";
+
+/* FONT AWESOME */
+
+$fa-font-path: '../../vendor/font-awesome/fonts';
+
+@import "../../vendor/font-awesome/scss/variables";
+@import "../../vendor/font-awesome/scss/path";
+
+/* THEME CORE */
+
+@import "variables";
+@import "mixins";
+
+@import "wordpress-classes";
+@import "social-menu";

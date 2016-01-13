@@ -1,0 +1,31 @@
+.alignnone {
+	margin: $alignment-spacing-y $alignment-spacing-x;
+}
+
+.aligncenter {
+	display: block;
+	margin: $alignment-spacing-y auto;
+}
+
+.alignright {
+	float: right;
+	margin: $alignment-spacing-y 0 $alignment-spacing-y $alignment-spacing-x;
+}
+
+.alignleft {
+	float: left;
+	margin: $alignment-spacing-y $alignment-spacing-x $alignment-spacing-y 0;
+}
+
+.screen-reader-text {
+	@include sr-only();
+
+	&:focus {
+		width: auto;
+		height: auto;
+		padding: 5px 15px;
+		margin: 0;
+		clip: auto !important;
+	}
+}
+

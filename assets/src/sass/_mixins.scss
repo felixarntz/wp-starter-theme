@@ -1,0 +1,13 @@
+@mixin fa-icon( $icon_size ) {
+	display: inline-block;
+	font: normal normal normal #{$icon_size}/1 FontAwesome;
+	font-size: inherit;
+	speak: none;
+	text-align: center;
+	text-decoration: inherit;
+	text-transform: none;
+	text-rendering: auto;
+	vertical-align: top;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

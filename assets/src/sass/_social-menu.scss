@@ -1,0 +1,382 @@
+ul.social-menu {
+	li {
+		a {
+			&:before {
+				@include fa-icon( $social-menu-icon-size );
+				content: $fa-var-share-alt;
+			}
+		}
+
+		a[href*="app.net"] {
+			&:hover,
+			&:focus {
+				color: #d87a68;
+			}
+			&:before {
+				content: $fa-var-adn;
+			}
+		}
+		a[href*="amazon."] {
+			&:hover,
+			&:focus {
+				color: #ff9900;
+			}
+			&:before {
+				content: $fa-var-amazon;
+			}
+		}
+		a[href*="behance.net"] {
+			&:hover,
+			&:focus {
+				color: #1769ff;
+			}
+			&:before {
+				content: $fa-var-behance;
+			}
+		}
+		a[href*="bitbucket.org"] {
+			&:hover,
+			&:focus {
+				color: #205081;
+			}
+			&:before {
+				content: $fa-var-bitbucket;
+			}
+		}
+		a[href*="codepen.io"] {
+			&:hover,
+			&:focus {
+				color: #000000;
+			}
+			&:before {
+				content: $fa-var-codepen;
+			}
+		}
+		a[href*="delicious.com"] {
+			&:hover,
+			&:focus {
+				color: #3399ff;
+			}
+			&:before {
+				content: $fa-var-delicious;
+			}
+		}
+		a[href*="deviantart.com"] {
+			&:hover,
+			&:focus {
+				color: #4dc47d;
+			}
+			&:before {
+				content: $fa-var-deviantart;
+			}
+		}
+		a[href*="digg.com"] {
+			&:hover,
+			&:focus {
+				color: #000000;
+			}
+			&:before {
+				content: $fa-var-digg;
+			}
+		}
+		a[href*="dribbble.com"] {
+			&:hover,
+			&:focus {
+				color: #ea4c89;
+			}
+			&:before {
+				content: $fa-var-dribbble;
+			}
+		}
+		a[href*="drupal.org"] {
+			&:hover,
+			&:focus {
+				color: #00598e;
+			}
+			&:before {
+				content: $fa-var-drupal;
+			}
+		}
+		a[href*="facebook.com"] {
+			&:hover,
+			&:focus {
+				color: #3b5998;
+			}
+			&:before {
+				content: $fa-var-facebook;
+			}
+		}
+		a[href*="flickr.com"] {
+			&:hover,
+			&:focus {
+				color: #ff0084;
+			}
+			&:before {
+				content: $fa-var-flickr;
+			}
+		}
+		a[href*="foursquare.com"] {
+			&:hover,
+			&:focus {
+				color: #0732a2;
+			}
+			&:before {
+				content: $fa-var-foursquare;
+			}
+		}
+		a[href*="getpocket.com"] {
+			&:hover,
+			&:focus {
+				color: #ef4056;
+			}
+			&:before {
+				content: $fa-var-get-pocket;
+			}
+		}
+		a[href*="github.com"] {
+			&:hover,
+			&:focus {
+				color: #333333;
+			}
+			&:before {
+				content: $fa-var-github;
+			}
+		}
+		a[href*="plus.google.com"] {
+			&:hover,
+			&:focus {
+				color: #dc4e41;
+			}
+			&:before {
+				content: $fa-var-google-plus;
+			}
+		}
+		a[href*="instagram.com"] {
+			&:hover,
+			&:focus {
+				color: #3f729b;
+			}
+			&:before {
+				content: $fa-var-instagram;
+			}
+		}
+		a[href*="joomla.org"] {
+			&:hover,
+			&:focus {
+				color: #5091cd;
+			}
+			&:before {
+				content: $fa-var-joomla;
+			}
+		}
+		a[href*="jsfiddle.net"] {
+			&:hover,
+			&:focus {
+				color: #1c90f3;
+			}
+			&:before {
+				content: $fa-var-jsfiddle;
+			}
+		}
+		a[href*="last.fm"],
+		a[href*="lastfm."] {
+			&:hover,
+			&:focus {
+				color: #d51007;
+			}
+			&:before {
+				content: $fa-var-lastfm;
+			}
+		}
+		a[href*="linkedin.com"] {
+			&:hover,
+			&:focus {
+				color: #0077b5;
+			}
+			&:before {
+				content: $fa-var-linkedin;
+			}
+		}
+		a[href*="pinterest.com"] {
+			&:hover,
+			&:focus {
+				color: #bd081c;
+			}
+			&:before {
+				content: $fa-var-pinterest-p;
+			}
+		}
+		a[href*="reddit.com"] {
+			&:hover,
+			&:focus {
+				color: #ff4500;
+			}
+			&:before {
+				content: $fa-var-reddit-alien;
+			}
+		}
+		a[href*="skype.com"] {
+			&:hover,
+			&:focus {
+				color: #00aff0;
+			}
+			&:before {
+				content: $fa-var-skype;
+			}
+		}
+		a[href*="slack.com"] {
+			&:hover,
+			&:focus {
+				color: #3eb991;
+			}
+			&:before {
+				content: $fa-var-slack;
+			}
+		}
+		a[href*="slideshare.net"] {
+			&:hover,
+			&:focus {
+				color: #0077b5;
+			}
+			&:before {
+				content: $fa-var-slideshare;
+			}
+		}
+		a[href*="soundcloud.com"] {
+			&:hover,
+			&:focus {
+				color: #ff8800;
+			}
+			&:before {
+				content: $fa-var-soundcloud;
+			}
+		}
+		a[href*="spotify.com"] {
+			&:hover,
+			&:focus {
+				color: #2ebd59;
+			}
+			&:before {
+				content: $fa-var-spotify;
+			}
+		}
+		a[href*="steampowered.com"],
+		a[href*="steamcommunity.com"] {
+			&:hover,
+			&:focus {
+				color: #171a21;
+			}
+			&:before {
+				content: $fa-var-steam;
+			}
+		}
+		a[href*="stumbleupon.com"] {
+			&:hover,
+			&:focus {
+				color: #eb4924;
+			}
+			&:before {
+				content: $fa-var-stumbleupon;
+			}
+		}
+		a[href*="trello.com"] {
+			&:hover,
+			&:focus {
+				color: #0079bf;
+			}
+			&:before {
+				content: $fa-var-trello;
+			}
+		}
+		a[href*="tumblr.com"] {
+			&:hover,
+			&:focus {
+				color: #35465c;
+			}
+			&:before {
+				content: $fa-var-tumblr;
+			}
+		}
+		a[href*="twitch.tv"] {
+			&:hover,
+			&:focus {
+				color: #6441a5;
+			}
+			&:before {
+				content: $fa-var-twitch;
+			}
+		}
+		a[href*="twitter.com"] {
+			&:hover,
+			&:focus {
+				color: #55acee;
+			}
+			&:before {
+				content: $fa-var-twitter;
+			}
+		}
+		a[href*="vimeo.com"] {
+			&:hover,
+			&:focus {
+				color: #1ab7ea;
+			}
+			&:before {
+				content: $fa-var-vimeo;
+			}
+		}
+		a[href*="vine.co"] {
+			&:hover,
+			&:focus {
+				color: #00b488;
+			}
+			&:before {
+				content: $fa-var-vine;
+			}
+		}
+		a[href*="whatsapp.com"] {
+			&:hover,
+			&:focus {
+				color: #43d854;
+			}
+			&:before {
+				content: $fa-var-whatsapp;
+			}
+		}
+		a[href*="wordpress.com"] {
+			&:hover,
+			&:focus {
+				color: #21759b;
+			}
+			&:before {
+				content: $fa-var-wordpress;
+			}
+		}
+		a[href*="wordpress.org"] {
+			&:hover,
+			&:focus {
+				color: #464646;
+			}
+			&:before {
+				content: $fa-var-wordpress;
+			}
+		}
+		a[href*="xing.com"] {
+			&:hover,
+			&:focus {
+				color: #cfdc00;
+			}
+			&:before {
+				content: $fa-var-xing;
+			}
+		}
+		a[href*="youtube.com"] {
+			&:hover,
+			&:focus {
+				color: #cd201f;
+			}
+			&:before {
+				content: $fa-var-youtube;
+			}
+		}
+	}
+}
