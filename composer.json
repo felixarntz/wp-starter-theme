@@ -38,11 +38,11 @@
   "require": {
     "composer/installers": "~1.0",
     "felixarntz/wp-objects": "dev-master",
-    "felixarntz/options-definitely": "dev-master"
+    "felixarntz/customizer-definitely": "dev-master"
   },
   "extra": {
     "installer-paths": {
-      "vendor/felixarntz/{$name}/": ["felixarntz/wp-objects", "felixarntz/options-definitely"]
+      "vendor/felixarntz/{$name}/": ["felixarntz/wp-objects", "felixarntz/customizer-definitely"]
     }
   }
 }

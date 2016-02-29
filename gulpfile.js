@@ -127,6 +127,22 @@ gulp.task( 'sass', function( done ) {
 		}) )
 		.pipe( gulp.dest( sass.dst ) )
 		.on( 'end', done );
+
+	gulp.src( sass.src + 'editor.scss' )
+		.pipe( sass.compile({
+			errLogToConsole: true
+		}) )
+		.pipe( sass.lint() )
+		.pipe( gulp.dest( sass.dst ) )
+		.pipe( sass.minify({
+			keepSpecialComments: 0
+		}) )
+		.pipe( banner( assetheader ) )
+		.pipe( rename({
+			extname: '.min.css'
+		}) )
+		.pipe( gulp.dest( sass.dst ) )
+		.on( 'end', done );
 });
 
 // compile JavaScript
