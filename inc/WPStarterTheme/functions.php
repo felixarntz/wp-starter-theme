@@ -18,8 +18,20 @@ function wp_nav_menu( $args = array() ) {
 	return Base\Util\NavMenu::render( $args );
 }
 
-function get_template_part( $slug, $args = array(), $echo = true, $cache = true ) {
-	Base\Util\Template::render( $slug, $args, $echo, $cache );
+function get_template_part( $slug, $data = array(), $cache = false ) {
+	return Base\Util\Template::render( $slug, $data, $cache );
+}
+
+function get_header( $data = array(), $cache = false ) {
+	return Base\Util\Template::render( 'header', $data, $cache );
+}
+
+function get_footer( $data = array(), $cache = false ) {
+	return Base\Util\Template::render( 'footer', $data, $cache );
+}
+
+function get_sidebar( $data = array(), $cache = false ) {
+	return Base\Util\Template::render( 'sidebar', $data, $cache );
 }
 
 function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
@@ -28,4 +40,48 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
 
 function get_post_type_object( $post_type = null ) {
 	return Base\Util\Template::get_post_type_object( $post_type );
+}
+
+function get_the_post_navigation( $args = array() ) {
+	return Base\Util\ContentNavigation::get_the_post_navigation( $args );
+}
+
+function the_post_navigation( $args = array() ) {
+	echo Base\Util\ContentNavigation::get_the_post_navigation( $args );
+}
+
+function get_the_posts_navigation( $args = array() ) {
+	return Base\Util\ContentNavigation::get_the_posts_navigation( $args );
+}
+
+function the_posts_navigation( $args = array() ) {
+	echo Base\Util\ContentNavigation::get_the_posts_navigation( $args );
+}
+
+function get_the_posts_pagination( $args = array() ) {
+	return Base\Util\ContentNavigation::get_the_posts_pagination( $args );
+}
+
+function the_posts_pagination( $args = array() ) {
+	echo Base\Util\ContentNavigation::get_the_posts_pagination( $args );
+}
+
+function get_the_comments_navigation( $args = array() ) {
+	return Base\Util\ContentNavigation::get_the_comments_navigation( $args );
+}
+
+function the_comments_navigation( $args = array() ) {
+	echo Base\Util\ContentNavigation::get_the_comments_navigation( $args );
+}
+
+function get_the_comments_pagination( $args = array() ) {
+	return Base\Util\ContentNavigation::get_the_comments_pagination( $args );
+}
+
+function the_comments_pagination( $args = array() ) {
+	echo Base\Util\ContentNavigation::get_the_comments_pagination( $args );
+}
+
+function wp_link_pages( $args = array() ) {
+	echo Base\Util\ContentNavigation::wp_link_pages( $args );
 }

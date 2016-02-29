@@ -49,6 +49,7 @@ final class Theme {
 
 	private function add_theme_support() {
 		add_theme_support( 'title-tag' );
+		add_theme_support( 'site-logo', array( 'size' => 256 ) );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
@@ -62,10 +63,9 @@ final class Theme {
 	}
 
 	private function add_editor_style() {
-		//TODO
-		/*$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		add_editor_style( 'assets/dist/css/editor' . $min . '.css' );*/
+		add_editor_style( 'assets/dist/css/editor' . $min . '.css' );
 	}
 
 	private function register_nav_menus() {
@@ -94,6 +94,16 @@ final class Theme {
 			return null;
 		}
 		return $this->info;
+	}
+
+	public function _doing_it_wrong( $function, $message, $version = null ) {
+		if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
+			$message = sprintf( __( '%s was called <strong>incorrectly</strong>.', 'wp-starter-theme' ), $function ) . ' ' . $message;
+			if ( null !== $version ) {
+				$message .= ' ' . sprintf( __( 'This message was added in version %s.', 'wp-starter-theme' ), $version );
+			}
+			trigger_error( $message );
+		}
 	}
 }
 
