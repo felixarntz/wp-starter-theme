@@ -15,11 +15,12 @@ get_header(); ?>
 
 						<?php if( have_posts() ) : ?>
 
-							<?php if ( is_home() && ! is_front_page() ) : ?>
-								<header>
-									<h1 class="main-title"><?php single_post_title(); ?></h1>
-								</header>
-							<?php endif; ?>
+							<header>
+								<?php
+								the_archive_title( '<h1 class="main-title">', '</h1>' );
+								the_archive_description( '<div class="main-description">', '</div>' );
+								?>
+							</header>
 
 							<?php
 
