@@ -6,7 +6,7 @@
 
 namespace WPStarterTheme\Base\Util;
 
-final class NavMenu extends \Walker_Nav_Menu {
+final class BootstrapNavMenu extends \Walker_Nav_Menu {
 	private static $li_class = '';
 	private static $a_class = '';
 

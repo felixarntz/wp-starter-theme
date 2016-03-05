@@ -6,7 +6,7 @@
 
 namespace WPStarterTheme\Base\Util;
 
-final class ContentNavigation {
+final class BootstrapContentNavigation {
 	private static $_aligned_helper = false;
 
 	public static function get_the_post_navigation( $args = array() ) {
