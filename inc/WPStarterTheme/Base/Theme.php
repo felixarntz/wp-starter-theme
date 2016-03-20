@@ -23,9 +23,11 @@ final class Theme {
 	}
 
 	public function run() {
+		Util\Template::init();
 		Util\Images::init();
-		Util\NavMenu::init();
+		Util\BootstrapNavMenu::init();
 		Assets::instance()->run();
+		Customizer::instance()->run();
 
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
@@ -33,9 +35,9 @@ final class Theme {
 
 	public function after_setup_theme() {
 		$this->load_textdomain();
-		$this->add_theme_support();
 		$this->add_editor_style();
 		$this->add_image_sizes();
+		$this->add_theme_support();
 		$this->register_nav_menus();
 	}
 
@@ -49,7 +51,7 @@ final class Theme {
 
 	private function add_theme_support() {
 		add_theme_support( 'title-tag' );
-		add_theme_support( 'site-logo', array( 'size' => 256 ) );
+		add_theme_support( 'custom-logo', array( 'size' => 'medium', 'header-text' => array( 'site-title', 'site-description' ) ) );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );

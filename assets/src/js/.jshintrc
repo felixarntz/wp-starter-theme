@@ -9,7 +9,7 @@
   "latedef"  : true,
   "laxbreak" : true,
   "nonbsp"   : true,
-  "predef"   : ["console", "wp", "wp_theme"],
+  "predef"   : ["jQuery", "console", "wp", "wp_theme"],
   "strict"   : true,
   "undef"    : true,
   "unused"   : true

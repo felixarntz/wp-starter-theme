@@ -74,7 +74,7 @@ var sass = {
 };
 
 var js = {
-	files: [ './assets/src/js/**/*.js' ],
+	files: [ './assets/src/js/**/*.js', '!./assets/src/js/customize-preview.js' ],
 	src: './assets/src/js/',
 	dst: './assets/dist/js/',
 	lint: require( 'gulp-jshint' ),
@@ -152,6 +152,19 @@ gulp.task( 'js', function( done ) {
 			lookup: true
 		}) )
 		.pipe( js.concat( 'app.js' ) )
+		.pipe( gulp.dest( js.dst ) )
+		.pipe( js.minify() )
+		.pipe( banner( assetheader ) )
+		.pipe( rename({
+			extname: '.min.js'
+		}) )
+		.pipe( gulp.dest( js.dst ) )
+		.on( 'end', done );
+
+	gulp.src( js.src + 'customize-preview.js' )
+		.pipe( js.lint({
+			lookup: true
+		}) )
 		.pipe( gulp.dest( js.dst ) )
 		.pipe( js.minify() )
 		.pipe( banner( assetheader ) )

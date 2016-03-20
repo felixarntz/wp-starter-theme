@@ -121,6 +121,29 @@ final class Template {
 		return \get_post_type_object( $post_type );
 	}
 
+	public static function init() {
+		add_filter( 'the_password_form', array( __CLASS__, '_get_the_password_form' ) );
+	}
+
+	public static function _get_the_password_form( $output ) {
+		$filename = locate_template( array( 'passwordform.php' ), false, false );
+
+		if ( ! $filename ) {
+			return $output;
+		}
+
+		$matches = array();
+		if ( preg_match( '/id="pwbox-(\d+)"/', $output, $matches ) ) {
+			$post = get_post( $matches[1] );
+
+			ob_start();
+			self::_load_template( $filename, array( 'post'	=> $post ), false );
+			$output = ob_get_clean();
+		}
+
+		return $output;
+	}
+
 	private static function _load_template( $filename, $data = array(), $require_once = true ) {
 		extract( $data, EXTR_SKIP );
 

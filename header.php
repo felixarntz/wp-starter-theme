@@ -22,8 +22,12 @@ namespace WPStarterTheme;
 
 			<div class="container">
 
-				<h1><a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-				<h2><?php bloginfo( 'description' ); ?></h2>
+				<h1 class="site-title"><a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
+				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+
+				<?php if ( function_exists( 'the_custom_logo' ) ) : ?>
+					<?php the_custom_logo(); ?>
+				<?php endif; ?>
 
 				<?php if ( has_nav_menu( 'primary' ) ) : ?>
 					<nav role="navigation">
