@@ -24,6 +24,7 @@ final class Theme {
 
 	public function run() {
 		Util\Template::init();
+		Util\TemplateTags::init();
 		Util\Images::init();
 		Util\BootstrapNavMenu::init();
 		Assets::instance()->run();
