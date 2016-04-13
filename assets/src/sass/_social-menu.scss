@@ -242,6 +242,15 @@ ul.social-menu {
 				content: $fa-var-slideshare;
 			}
 		}
+		a[href*="snapchat.com"] {
+			&:hover,
+			&:focus {
+				color: #fffc00;
+			}
+			&:before {
+				content: $fa-var-snapchat;
+			}
+		}
 		a[href*="soundcloud.com"] {
 			&:hover,
 			&:focus {
