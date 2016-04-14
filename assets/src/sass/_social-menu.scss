@@ -1,6 +1,8 @@
 ul.social-menu {
 	li {
 		a {
+			text-decoration: none !important;
+
 			&:before {
 				@include fa-icon( $social-menu-icon-size );
 				content: $fa-var-share-alt;

@@ -246,7 +246,7 @@ final class TemplateTags {
 		add_action( 'save_post', array( __CLASS__, '_clear_is_multi_terms_post_cache' ), 10, 1 );
 	}
 
-	private static function _clear_is_multi_terms_post_cache( $post_id ) {
+	public static function _clear_is_multi_terms_post_cache( $post_id ) {
 		self::_clear_is_multi_terms_cache( get_object_taxonomies( get_post( $post_id ) ) );
 	}
 

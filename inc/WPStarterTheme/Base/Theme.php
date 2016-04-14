@@ -74,6 +74,7 @@ final class Theme {
 	private function register_nav_menus() {
 		register_nav_menus( array(
 			'primary'	=> __( 'Primary Navigation', 'wp-starter-theme' ),
+			'social'	=> __( 'Social Menu', 'wp-starter-theme' ),
 		) );
 	}
 
