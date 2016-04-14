@@ -34,7 +34,7 @@ get_header(); ?>
 								}
 								get_template_part( 'template-parts/' . $slug, array(
 									'name'		=> $name,
-									'item'		=> \WPOO\Post::get( get_the_ID() ),
+									'post'		=> \WPOO\Post::get( get_the_ID() ),
 									'singular'	=> false,
 								), true );
 
