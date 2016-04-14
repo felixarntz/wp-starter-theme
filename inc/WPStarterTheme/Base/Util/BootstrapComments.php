@@ -117,6 +117,7 @@ final class BootstrapComments {
 						'before'	=> '<div class="reply">',
 						'after'		=> '</div>',
 					) ) ); ?>
+			<?php endif; ?>
 		<?php
 	}
 
