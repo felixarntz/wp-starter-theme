@@ -254,7 +254,7 @@ final class TemplateTags {
 	}
 
 	private static function _clear_is_multi_terms_post_cache( $post_id ) {
-		self::_clear_is_multi_terms_cache( get_object_taxonomies( get_post( $post_id ) );
+		self::_clear_is_multi_terms_cache( get_object_taxonomies( get_post( $post_id ) ) );
 	}
 
 	private static function _clear_is_multi_terms_cache( $taxonomies ) {

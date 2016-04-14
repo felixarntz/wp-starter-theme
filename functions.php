@@ -44,4 +44,4 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 }
 
 // run the theme
-call_user_func( 'WPStarterTheme\Base\Theme', 'instance' )->run();
+call_user_func( array( 'WPStarterTheme\Base\Theme', 'instance' ) )->run();

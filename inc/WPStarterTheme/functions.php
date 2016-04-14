@@ -54,7 +54,7 @@ function get_the_post_modified_date( $post = null ) {
 	return Base\Util\TemplateTags::get_the_post_modified_date( $post );
 }
 
-function human_time_diff( $compare, $current = '', $format = false, ) {
+function human_time_diff( $compare, $current = '', $format = false ) {
 	return Base\Util\TemplateTags::human_time_diff( $compare, $current, $format );
 }
 

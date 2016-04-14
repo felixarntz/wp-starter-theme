@@ -24,7 +24,7 @@ final class Assets {
 
 	public function enqueue() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version = Theme::get_info( 'Version' );
+		$version = Theme::instance()->get_info( 'Version' );
 		$dependencies = array( 'jquery' );
 
 		wp_enqueue_style( 'wp-starter-theme', Util\Path::get_url( 'assets/dist/css/app' . $min . '.css' ), array(), $version, 'all' );
