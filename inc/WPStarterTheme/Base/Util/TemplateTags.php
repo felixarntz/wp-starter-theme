@@ -21,7 +21,7 @@ final class TemplateTags {
 			return;
 		}
 
-		$output = '<ul class="post-meta post-meta-' . $post->post_type . '">';
+		$output = '';
 
 		if ( in_array( $post->post_type, self::$show_post_date, true ) ) {
 			$output .= '<li class="post-date"><span class="screen-reader-text">' . _x( 'Posted on', 'Used before the post date.', 'wp-starter-theme' ) . ' </span><time datetime="' . esc_attr( get_post_time( 'c', false, $post ) ) . '">' . self::get_the_post_date( $post ) . '</time></li>';
@@ -86,8 +86,12 @@ final class TemplateTags {
 
 		if ( is_user_logged_in() ) {
 			ob_start();
-			edit_post_link( null, '<li class="post-edit-link">', '</li>' );
-			$output = ob_get_clean();
+			self::edit_link( null, '<li class="post-edit-link">', '</li>', $post->ID );
+			$output .= ob_get_clean();
+		}
+
+		if ( ! empty( $output ) ) {
+			$output = '<ul class="post-meta post-meta-' . $post->post_type . '">' . $output . '</ul>';
 		}
 
 		return $output;
@@ -187,23 +191,12 @@ final class TemplateTags {
 
 	public static function edit_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
 		if ( null === $text ) {
-			$post_type = self::get_post_type_object();
+			$post = get_post( $id );
+			$post_type = get_post_type_object( $post ? $post->post_type : 'post' );
 			$text = sprintf( __( 'Edit %s', 'wp-starter-theme' ), $post_type->labels->singular_name );
 		}
 
 		\edit_post_link( $text, $before, $after, $id, $class );
-	}
-
-	public static function get_post_type_object( $post_type = null ) {
-		if ( null === $post_type ) {
-			if ( $post = get_post() ) {
-				$post_type = $post->post_type;
-			} else {
-				$post_type = 'post';
-			}
-		}
-
-		return \get_post_type_object( $post_type );
 	}
 
 	public static function is_multi_categories() {

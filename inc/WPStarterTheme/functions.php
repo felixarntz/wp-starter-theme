@@ -78,10 +78,6 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
 	Base\Util\TemplateTags::edit_link( $text, $before, $after, $id, $class );
 }
 
-function get_post_type_object( $post_type = null ) {
-	return Base\Util\TemplateTags::get_post_type_object( $post_type );
-}
-
 function wp_list_comments( $args = array() ) {
 	return Base\Util\BootstrapComments::wp_list_comments( $args );
 }
