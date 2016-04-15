@@ -10,7 +10,7 @@ final class BootstrapComments {
 	public static function wp_list_comments( $args = array() ) {
 		$echo = ! isset( $args['echo'] ) || $args['echo'];
 
-		$args['style'] = 'ul';
+		$args['style'] = 'div';
 		$args['callback'] = array( __CLASS__, '_render_comment' );
 		$args['end-callback'] = array( __CLASS__, '_end_comment' );
 		$args['echo'] = false;
@@ -64,7 +64,7 @@ final class BootstrapComments {
 	public static function _render_comment( $comment, $args, $depth ) {
 		$tag = 'li';
 		$add_below = 'comment';
-		if ( 'div' === $args['style'] || 0 < $depth ) {
+		if ( 1 < $depth ) {
 			$tag = 'div';
 		}
 
@@ -78,7 +78,7 @@ final class BootstrapComments {
 					</div>
 			<?php else : ?>
 				<?php if ( 0 != $args['avatar_size'] ) : ?>
-					<?php if ( 0 < $depth ) : ?>
+					<?php if ( 1 < $depth ) : ?>
 						<a class="media-left" href="<?php comment_author_url( $comment ); ?>" rel="external nofollow">
 							<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
 						</a>
@@ -117,7 +117,7 @@ final class BootstrapComments {
 
 	public static function _end_comment( $comment, $args, $depth ) {
 		$tag = 'li';
-		if ( 'div' === $args['style'] || 0 < $depth ) {
+		if ( 0 < $depth ) {
 			$tag = 'div';
 		}
 		?>
