@@ -157,3 +157,7 @@ function wp_link_pages( $args = array() ) {
 function wp_nav_menu( $args = array() ) {
 	return Base\Util\BootstrapNavMenu::render( $args );
 }
+
+function add_shortcode( $tag, $func, $early = false ) {
+	Base\Util\Shortcodes::add_shortcode( $tag, $func, $early );
+}
