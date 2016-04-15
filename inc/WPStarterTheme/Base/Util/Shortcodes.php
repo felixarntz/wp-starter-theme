@@ -7,7 +7,7 @@
 namespace WPStarterTheme\Base\Util;
 
 final class Shortcodes {
-	self::$early_shortcodes = array();
+	private static $early_shortcodes = array();
 
 	public static function add_shortcode( $tag, $func, $early = false ) {
 		if ( $early ) {
