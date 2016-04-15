@@ -15,6 +15,8 @@ namespace WPStarterTheme;
 		<?php echo $post->get_thumbnail(); ?>
 	<?php endif; ?>
 	<?php the_post_meta(); ?>
-	<?php echo $post->get_data( 'content', true ); ?>
+	<div class="post-content">
+		<?php echo $post->get_data( 'content', true ); ?>
+	</div>
 	<?php comments_template(); ?>
 </article>

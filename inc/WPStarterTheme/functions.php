@@ -38,6 +38,14 @@ function get_the_post_meta( $post = null ) {
 	return Base\Util\TemplateTags::get_the_post_meta( $post );
 }
 
+function the_comment_meta( $comment = null ) {
+	Base\Util\TemplateTags::the_comment_meta( $comment );
+}
+
+function get_the_comment_meta( $comment = null ) {
+	return Base\Util\TemplateTags::get_the_comment_meta( $comment );
+}
+
 function the_post_date( $post = null ) {
 	Base\Util\TemplateTags::the_post_date( $post );
 }
@@ -52,6 +60,14 @@ function the_post_modified_date( $post = null ) {
 
 function get_the_post_modified_date( $post = null ) {
 	return Base\Util\TemplateTags::get_the_post_modified_date( $post );
+}
+
+function the_comment_date( $comment = null ) {
+	Base\Util\TemplateTags::the_comment_date( $comment );
+}
+
+function get_the_comment_date( $comment = null ) {
+	return Base\Util\TemplateTags::get_the_comment_date( $comment );
 }
 
 function human_time_diff( $compare, $current = '', $format = false ) {
@@ -74,8 +90,16 @@ function get_the_comments_popup_link( $post = null ) {
 	return Base\Util\TemplateTags::get_the_comments_popup_link( $post );
 }
 
-function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
-	Base\Util\TemplateTags::edit_link( $text, $before, $after, $id, $class );
+function get_comment_time( $d = '', $gmt = false, $comment = 0, $translate = true ) {
+	return Base\Util\TemplateTags::get_comment_time( $d, $gmt, $comment, $translate );
+}
+
+function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $class = 'post-edit-link' ) {
+	Base\Util\TemplateTags::edit_post_link( $text, $before, $after, $post, $class );
+}
+
+function edit_comment_link( $text = null, $before = '', $after = '', $comment = 0, $class = 'comment-edit-link' ) {
+	Base\Util\TemplateTags::edit_comment_link( $text, $before, $after, $comment, $class );
 }
 
 function wp_list_comments( $args = array() ) {

@@ -96,18 +96,12 @@ final class BootstrapComments {
 							<p><?php _e( 'Your comment is awaiting moderation.', 'wp-starter-theme' ); ?></p>
 						</div>
 					<?php endif; ?>
-					<h4><?php echo get_comment_author_link(); ?></h4>
-					<div class="comment-metadata">
-						<time datetime="<?php echo comment_time( 'Y-m-d' ); ?>">
-							<a href="<?php echo get_comment_link( $comment ); ?>"><?php echo comment_time(); ?></a>
-						</time>
-						<?php edit_comment_link( __( 'Edit Comment', 'wp-starter-theme' ), '<span class="edit-comment">', '</span>' ); ?>
-					</div>
+					<?php TemplateTags::the_comment_meta( $comment ); ?>
 					<div class="comment-content">
 						<?php comment_text( get_comment_id(), array_merge( $args, array(
-							'add_below' => $add_below,
-							'depth' => $depth,
-							'max_depth' => $args['max_depth'],
+							'add_below'	=> $add_below,
+							'depth'		=> $depth,
+							'max_depth'	=> $args['max_depth'],
 						) ) ); ?>
 					</div>
 					<?php comment_reply_link( array_merge( $args, array(
