@@ -28,6 +28,7 @@ final class Theme {
 		Util\Images::init();
 		Util\Shortcodes::init();
 		Util\BootstrapNavMenu::init();
+		Util\BootstrapGallery::init();
 		Assets::instance()->run();
 		Customizer::instance()->run();
 
