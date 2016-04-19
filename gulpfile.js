@@ -61,7 +61,7 @@ var composer = require( 'gulp-composer' );
 var bower = require( 'bower' );
 
 var php = {
-	files: [ './*.php', './inc/**/*.php' ]
+	files: [ './*.php', './inc/**/*.php', './template-parts/**/*.php' ]
 };
 
 var sass = {

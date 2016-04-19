@@ -26,7 +26,7 @@ final class TemplateTags {
 		if ( in_array( $post->post_type, self::$show_post_date, true ) ) {
 			$output .= '<li class="post-date"><span class="screen-reader-text">' . _x( 'Posted on', 'Used before the post date.', 'wp-starter-theme' ) . ' </span><time datetime="' . esc_attr( get_post_time( 'c', false, $post ) ) . '">' . self::get_the_post_date( $post ) . '</time></li>';
 
-			if ( get_post_time( 'U', false, $post ) !== get_post_modified_time( 'U', false, $post ) ) {
+			if ( self::is_modified_different( $post ) ) {
 				$output .= '<li class="post-modified-date"><span class="screen-reader-text">' . _x( 'Last Edited on', 'Used before the post modified date.', 'wp-starter-theme' ) . ' </span><time datetime="' . esc_attr( get_post_modified_time( 'c', false, $post ) ) . '">' . self::get_the_post_modified_date( $post ) . '</time></li>';
 			}
 		}
@@ -120,6 +120,10 @@ final class TemplateTags {
 		$output = '<ul class="comment-meta comment-meta-' . $comment_type . '">' . $output . '</ul>';
 
 		return $output;
+	}
+
+	public static function is_modified_different( $post = null ) {
+		return get_post_time( 'Ymd', false, $post ) !== get_post_modified_time( 'Ymd', false, $post );
 	}
 
 	public static function the_post_date( $post = null ) {
