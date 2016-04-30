@@ -43,13 +43,13 @@ final class TemplateTags {
 				break;
 			case 'post':
 				if ( self::is_multi_categories() ) {
-					$output .= get_the_category_list( '<li class="post-categories"><span class="screen-reader-text">' . _x( 'Categories', 'Used before category names.', 'wp-starter-theme' ) . ' </span>', ', ', '</li>', $post->ID );
+					$output .= get_the_term_list( $post->ID, 'category', '<li class="post-categories"><span class="screen-reader-text">' . _x( 'Categories', 'Used before category names.', 'leavesandlove-v5' ) . ' </span>', ', ', '</li>' );
 				}
 				if ( self::is_multi_tags() ) {
-					$output .= get_the_tag_list( '<li class="post-tags"><span class="screen-reader-text">' . _x( 'Tags', 'Used before tag names.', 'wp-starter-theme' ) . ' </span>', ', ', '</li>', $post->ID );
+					$output .= get_the_term_list( $post->ID, 'post_tag', '<li class="post-tags"><span class="screen-reader-text">' . _x( 'Tags', 'Used before tag names.', 'leavesandlove-v5' ) . ' </span>', ', ', '</li>' );
 				}
 				if ( current_theme_supports( 'post-formats' ) && self::is_multi_post_formats() ) {
-					$output .= '<li class="post-format"><span class="screen-reader-text">' . _x( 'Post Format', 'Used before the post format.', 'wp-starter-theme' ) . ' </span>' . self::get_the_post_format( $post ) . '</li>';
+					$output .= '<li class="post-format"><span class="screen-reader-text">' . _x( 'Post Format', 'Used before the post format.', 'leavesandlove-v5' ) . ' </span>' . self::get_the_post_format( $post ) . '</li>';
 				}
 				break;
 			default:

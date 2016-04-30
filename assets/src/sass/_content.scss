@@ -4,3 +4,19 @@
 		margin-bottom: 1rem;
 	}
 }
+
+.comments-area {
+	.media-left {
+		padding-right: 0;
+
+		span,
+		a {
+			display: block;
+			padding-right: 10px;
+
+			img {
+				display: block;
+			}
+		}
+	}
+}

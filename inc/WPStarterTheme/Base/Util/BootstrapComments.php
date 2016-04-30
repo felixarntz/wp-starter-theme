@@ -78,17 +78,17 @@ final class BootstrapComments {
 					</div>
 			<?php else : ?>
 				<?php if ( 0 != $args['avatar_size'] ) : ?>
-					<?php if ( 1 < $depth ) : ?>
-						<a class="media-left" href="<?php comment_author_url( $comment ); ?>" rel="external nofollow">
-							<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
-						</a>
-					<?php else : ?>
-						<div class="media-left">
+					<div class="media-left">
+						<?php if ( get_comment_author_url( $comment ) ) : ?>
 							<a href="<?php comment_author_url( $comment ); ?>" rel="external nofollow">
 								<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
 							</a>
-						</div>
-					<?php endif; ?>
+						<?php else : ?>
+							<span>
+								<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
+							</span>
+						<?php endif; ?>
+					</div>
 				<?php endif; ?>
 				<div class="media-body">
 					<?php if ( '0' == $comment->comment_approved ) : ?>
