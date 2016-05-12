@@ -21,6 +21,7 @@
 @import "../../vendor/bootstrap/scss/button-group";
 @import "../../vendor/bootstrap/scss/input-group";
 @import "../../vendor/bootstrap/scss/alert";
+@import "../../vendor/bootstrap/scss/media";
 @import "../../vendor/bootstrap/scss/responsive-embed";
 @import "../../vendor/bootstrap/scss/close";
 
@@ -40,4 +41,5 @@ $fa-font-path: '../../vendor/font-awesome/fonts';
 @import "mixins";
 
 @import "wordpress-classes";
+@import "content";
 @import "social-menu";

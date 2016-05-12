@@ -23,24 +23,10 @@ final class Template {
 		unset( $data['return'] );
 
 		if ( $cache ) {
-			$cache_args = array();
-			foreach ( $data as $key => $value ) {
-				if ( is_scalar( $value ) || is_array( $value ) ) {
-					$cache_args[ $key ] = $value;
-				} elseif ( is_object( $value ) && is_callable( array( $value, 'get_ID' ) ) ) {
-					$cache_args[ $key ] = call_user_func( array( $value, 'get_ID' ) );
-				} else {
-					WPStarterTheme\Base\Theme::_doing_it_wrong( __METHOD__, sprintf( __( 'The value for %1$s is not storable in the cache key for the template %2$s.', 'wp-starter-theme' ), $key, $slug ) );
-					break;
-				}
-			}
+			$cache = self::_get_cache_key( $slug, $data );
 
-			// only use cache if arguments qualify for it
-			if ( count( $data ) !== count( $cache_args ) ) {
-				$cache = false;
-			} else {
-				$cache = serialize( $cache_args );
-				$output = wp_cache_get( $slug, $cache );
+			if ( $cache ) {
+				$output = wp_cache_get( 'templateparts', $cache );
 				if ( false !== $output ) {
 					$output = self::_add_output_html_comments( $output, $slug, true );
 					if ( $return ) {
@@ -88,7 +74,7 @@ final class Template {
 		$output = ob_get_clean();
 
 		if ( $cache ) {
-			wp_cache_set( $slug, $output, $cache, self::CACHE_DURATION );
+			wp_cache_set( 'templateparts', $output, $cache, self::CACHE_DURATION );
 		}
 
 		$output = self::_add_output_html_comments( $output, $slug );
@@ -146,5 +132,35 @@ final class Template {
 			$end = sprintf( __( 'End Template %s', 'wp-starter-theme' ), $slug );
 		}
 		return '<!-- ' . $start . ' -->' . "\n" . $output . '<!-- ' . $end . ' -->' . "\n";
+	}
+
+	private static function _get_cache_key( $slug, $data = array() ) {
+		$cache_args = array( 'slug' => str_replace( 'template-parts/', '', $slug ) );
+		foreach ( $data as $key => $value ) {
+			if ( is_scalar( $value ) || is_array( $value ) ) {
+				$cache_args[ $key ] = $value;
+			} elseif ( is_object( $value ) && is_callable( array( $value, 'get_ID' ) ) ) {
+				$cache_args[ $key ] = call_user_func( array( $value, 'get_ID' ) );
+			} else {
+				WPStarterTheme\Base\Theme::_doing_it_wrong( __METHOD__, sprintf( __( 'The value for %1$s is not storable in the cache key for the template %2$s.', 'wp-starter-theme' ), $key, $slug ) );
+				break;
+			}
+		}
+
+		// only use cache if arguments qualify for it
+		if ( count( $data ) !== count( $cache_args ) - 1 ) {
+			return false;
+		}
+
+		$cache_key = '';
+		foreach ( $cache_args as $key => $value ) {
+			if ( is_array( $value ) ) {
+				$value = serialize( $value );
+			} elseif ( is_bool( $value ) ) {
+				$value = $value ? 'true' : 'false';
+			}
+			$cache_key .= $key . ':' . $value . ';';
+		}
+		return $cache_key;
 	}
 }

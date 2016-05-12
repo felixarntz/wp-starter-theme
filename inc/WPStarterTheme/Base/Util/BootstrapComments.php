@@ -10,7 +10,7 @@ final class BootstrapComments {
 	public static function wp_list_comments( $args = array() ) {
 		$echo = ! isset( $args['echo'] ) || $args['echo'];
 
-		$args['style'] = 'ul';
+		$args['style'] = 'div';
 		$args['callback'] = array( __CLASS__, '_render_comment' );
 		$args['end-callback'] = array( __CLASS__, '_end_comment' );
 		$args['echo'] = false;
@@ -64,7 +64,7 @@ final class BootstrapComments {
 	public static function _render_comment( $comment, $args, $depth ) {
 		$tag = 'li';
 		$add_below = 'comment';
-		if ( 'div' === $args['style'] || 0 < $depth ) {
+		if ( 1 < $depth ) {
 			$tag = 'div';
 		}
 
@@ -78,17 +78,17 @@ final class BootstrapComments {
 					</div>
 			<?php else : ?>
 				<?php if ( 0 != $args['avatar_size'] ) : ?>
-					<?php if ( 0 < $depth ) : ?>
-						<a class="media-left" href="<?php comment_author_url( $comment ); ?>" rel="external nofollow">
-							<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
-						</a>
-					<?php else : ?>
-						<div class="media-left">
+					<div class="media-left">
+						<?php if ( get_comment_author_url( $comment ) ) : ?>
 							<a href="<?php comment_author_url( $comment ); ?>" rel="external nofollow">
 								<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
 							</a>
-						</div>
-					<?php endif; ?>
+						<?php else : ?>
+							<span>
+								<?php echo get_avatar( $comment, $args['avatar_size'] ); ?>
+							</span>
+						<?php endif; ?>
+					</div>
 				<?php endif; ?>
 				<div class="media-body">
 					<?php if ( '0' == $comment->comment_approved ) : ?>
@@ -96,18 +96,12 @@ final class BootstrapComments {
 							<p><?php _e( 'Your comment is awaiting moderation.', 'wp-starter-theme' ); ?></p>
 						</div>
 					<?php endif; ?>
-					<h4><?php echo get_comment_author_link(); ?></h4>
-					<div class="comment-metadata">
-						<time datetime="<?php echo comment_time( 'Y-m-d' ); ?>">
-							<a href="<?php echo get_comment_link( $comment ); ?>"><?php echo comment_time(); ?></a>
-						</time>
-						<?php edit_comment_link( __( 'Edit Comment', 'wp-starter-theme' ), '<span class="edit-comment">', '</span>' ); ?>
-					</div>
+					<?php TemplateTags::the_comment_meta( $comment ); ?>
 					<div class="comment-content">
 						<?php comment_text( get_comment_id(), array_merge( $args, array(
-							'add_below' => $add_below,
-							'depth' => $depth,
-							'max_depth' => $args['max_depth'],
+							'add_below'	=> $add_below,
+							'depth'		=> $depth,
+							'max_depth'	=> $args['max_depth'],
 						) ) ); ?>
 					</div>
 					<?php comment_reply_link( array_merge( $args, array(
@@ -117,12 +111,13 @@ final class BootstrapComments {
 						'before'	=> '<div class="reply">',
 						'after'		=> '</div>',
 					) ) ); ?>
+			<?php endif; ?>
 		<?php
 	}
 
 	public static function _end_comment( $comment, $args, $depth ) {
 		$tag = 'li';
-		if ( 'div' === $args['style'] || 0 < $depth ) {
+		if ( 0 < $depth ) {
 			$tag = 'div';
 		}
 		?>

@@ -1,6 +1,8 @@
 ul.social-menu {
 	li {
 		a {
+			text-decoration: none !important;
+
 			&:before {
 				@include fa-icon( $social-menu-icon-size );
 				content: $fa-var-share-alt;
@@ -240,6 +242,15 @@ ul.social-menu {
 			}
 			&:before {
 				content: $fa-var-slideshare;
+			}
+		}
+		a[href*="snapchat.com"] {
+			&:hover,
+			&:focus {
+				color: #fffc00;
+			}
+			&:before {
+				content: $fa-var-snapchat;
 			}
 		}
 		a[href*="soundcloud.com"] {

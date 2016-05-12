@@ -18,7 +18,7 @@ get_header(); ?>
 
 							get_template_part( 'template-parts/content', array(
 								'name'		=> get_post_type(),
-								'item'		=> \WPOO\Post::get( get_the_ID() ),
+								'post'		=> \WPOO\Post::get( get_the_ID() ),
 								'singular'	=> true,
 							), true );
 

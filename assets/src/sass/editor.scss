@@ -11,7 +11,9 @@
 @import "../../vendor/bootstrap/scss/type";
 @import "../../vendor/bootstrap/scss/images";
 @import "../../vendor/bootstrap/scss/code";
+@import "../../vendor/bootstrap/scss/grid";
 @import "../../vendor/bootstrap/scss/tables";
+@import "../../vendor/bootstrap/scss/buttons";
 
 @import "../../vendor/bootstrap/scss/utilities";
 
@@ -28,4 +30,7 @@ $fa-font-path: '../../vendor/font-awesome/fonts';
 @import "mixins";
 
 @import "wordpress-classes";
-@import "social-menu";
+
+body {
+	margin: 10px 15px;
+}

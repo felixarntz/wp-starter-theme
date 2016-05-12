@@ -7,11 +7,26 @@
 namespace WPStarterTheme;
 
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<h1><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
-	<?php if ( has_post_thumbnail() ) : ?>
-		<?php the_post_thumbnail(); ?>
+<article id="post-<?php echo $post->get_ID(); ?>" <?php echo $post->get_classes( '', true ); ?>>
+	<h1>
+		<?php if ( $singular ) : ?>
+			<?php echo $post->get_data( 'title', true ); ?>
+		<?php else : ?>
+			<a href="<?php echo $post->get_url(); ?>"><?php echo $post->get_data( 'title', true ); ?></a>
+		<?php endif; ?>
+	</h1>
+	<?php if ( $post->has_thumbnail() ) : ?>
+		<?php if ( $singular ) : ?>
+			<?php echo $post->get_thumbnail(); ?>
+		<?php else : ?>
+			<a href="<?php echo $post->get_url(); ?>"><?php echo $post->get_thumbnail(); ?></a>
+		<?php endif; ?>
 	<?php endif; ?>
 	<?php the_post_meta(); ?>
-	<?php the_content(); ?>
+	<div class="post-content">
+		<?php echo $post->get_data( 'content', true ); ?>
+	</div>
+	<?php if ( $post->supports( 'comments' ) ) : ?>
+		<?php comments_template(); ?>
+	<?php endif; ?>
 </article>

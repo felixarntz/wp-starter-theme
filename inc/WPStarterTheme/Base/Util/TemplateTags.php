@@ -21,12 +21,12 @@ final class TemplateTags {
 			return;
 		}
 
-		$output = '<ul class="post-meta post-meta-' . $post->post_type . '">';
+		$output = '';
 
 		if ( in_array( $post->post_type, self::$show_post_date, true ) ) {
 			$output .= '<li class="post-date"><span class="screen-reader-text">' . _x( 'Posted on', 'Used before the post date.', 'wp-starter-theme' ) . ' </span><time datetime="' . esc_attr( get_post_time( 'c', false, $post ) ) . '">' . self::get_the_post_date( $post ) . '</time></li>';
 
-			if ( get_post_time( 'U', false, $post ) !== get_post_modified_time( 'U', false, $post ) ) {
+			if ( self::is_modified_different( $post ) ) {
 				$output .= '<li class="post-modified-date"><span class="screen-reader-text">' . _x( 'Last Edited on', 'Used before the post modified date.', 'wp-starter-theme' ) . ' </span><time datetime="' . esc_attr( get_post_modified_time( 'c', false, $post ) ) . '">' . self::get_the_post_modified_date( $post ) . '</time></li>';
 			}
 		}
@@ -43,13 +43,13 @@ final class TemplateTags {
 				break;
 			case 'post':
 				if ( self::is_multi_categories() ) {
-					$output .= get_the_category_list( '<li class="post-categories"><span class="screen-reader-text">' . _x( 'Categories', 'Used before category names.', 'wp-starter-theme' ) . ' </span>', ', ', '</li>', $post->ID );
+					$output .= get_the_term_list( $post->ID, 'category', '<li class="post-categories"><span class="screen-reader-text">' . _x( 'Categories', 'Used before category names.', 'leavesandlove-v5' ) . ' </span>', ', ', '</li>' );
 				}
 				if ( self::is_multi_tags() ) {
-					$output .= get_the_tag_list( '<li class="post-tags"><span class="screen-reader-text">' . _x( 'Tags', 'Used before tag names.', 'wp-starter-theme' ) . ' </span>', ', ', '</li>', $post->ID );
+					$output .= get_the_term_list( $post->ID, 'post_tag', '<li class="post-tags"><span class="screen-reader-text">' . _x( 'Tags', 'Used before tag names.', 'leavesandlove-v5' ) . ' </span>', ', ', '</li>' );
 				}
 				if ( current_theme_supports( 'post-formats' ) && self::is_multi_post_formats() ) {
-					$output .= '<li class="post-format"><span class="screen-reader-text">' . _x( 'Post Format', 'Used before the post format.', 'wp-starter-theme' ) . ' </span>' . self::get_the_post_format( $post ) . '</li>';
+					$output .= '<li class="post-format"><span class="screen-reader-text">' . _x( 'Post Format', 'Used before the post format.', 'leavesandlove-v5' ) . ' </span>' . self::get_the_post_format( $post ) . '</li>';
 				}
 				break;
 			default:
@@ -86,11 +86,44 @@ final class TemplateTags {
 
 		if ( is_user_logged_in() ) {
 			ob_start();
-			edit_post_link( null, '<li class="post-edit-link">', '</li>' );
-			$output = ob_get_clean();
+			self::edit_post_link( null, '<li class="post-edit-link">', '</li>', $post->ID );
+			$output .= ob_get_clean();
+		}
+
+		if ( ! empty( $output ) ) {
+			$output = '<ul class="post-meta post-meta-' . $post->post_type . '">' . $output . '</ul>';
 		}
 
 		return $output;
+	}
+
+	public static function the_comment_meta( $comment = null ) {
+		echo self::get_the_comment_meta( $comment );
+	}
+
+	public static function get_the_comment_meta( $comment = null ) {
+		$comment = get_comment( $comment );
+
+		if ( ! $comment ) {
+			return;
+		}
+
+		$output = '<li class="comment-date"><span class="screen-reader-text">' . _x( 'Posted on', 'Used before the comment date.', 'wp-starter-theme' ) . '</span><time datetime="' . esc_attr( self::get_comment_time( 'c', false, $comment ) ) . '">' . self::get_the_comment_date( $comment ) . '</time></li>';
+
+		$output .= '<li class="comment-author"><span class="screen-reader-text">' . _x( 'Author', 'Used before the comment author name.', 'wp-starter-theme' ) . '</span>' . get_comment_author_link( $comment ) . '</li>';
+
+		ob_start();
+		self::edit_comment_link( null, '<li class="comment-edit-link">', '</li>', $comment );
+		$output .= ob_get_clean();
+
+		$comment_type = $comment->comment_type ? $comment->comment_type : 'comment';
+		$output = '<ul class="comment-meta comment-meta-' . $comment_type . '">' . $output . '</ul>';
+
+		return $output;
+	}
+
+	public static function is_modified_different( $post = null ) {
+		return get_post_time( 'Ymd', false, $post ) !== get_post_modified_time( 'Ymd', false, $post );
 	}
 
 	public static function the_post_date( $post = null ) {
@@ -103,9 +136,9 @@ final class TemplateTags {
 	public static function get_the_post_date( $post = null ) {
 		if ( self::$relative_dates ) {
 			return self::human_time_diff( mysql2date( 'U', $post->post_date ), current_time( 'timestamp' ), true );
-		} else {
-			return get_the_date( '', $post );
 		}
+
+		return get_the_date( '', $post );
 	}
 
 	public static function the_post_modified_date( $post = null ) {
@@ -121,6 +154,21 @@ final class TemplateTags {
 		} else {
 			return get_post_modified_time( get_option( 'date_format' ), false, $post, true );
 		}
+	}
+
+	public static function the_comment_date( $comment = null ) {
+		$output = self::get_the_comment_date( $comment );
+		if ( $output ) {
+			echo $output;
+		}
+	}
+
+	public static function get_the_comment_date( $comment = null ) {
+		if ( self::$relative_dates ) {
+			return self::human_time_diff( mysql2date( 'U', $comment->comment_date ), current_time( 'timestamp' ), true );
+		}
+
+		return self::get_comment_time( '', false, $comment );
 	}
 
 	public static function human_time_diff( $compare, $current = '', $format = false ) {
@@ -185,25 +233,57 @@ final class TemplateTags {
 		return '<a href="' . $link . '">' . $output . '</a>';
 	}
 
-	public static function edit_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
+	public static function get_comment_time( $d = '', $gmt = false, $comment = 0, $translate = true ) {
+		// compatibility with original function signature
+		if ( is_bool( $comment ) ) {
+			$translate = $comment;
+			$comment = 0;
+		}
+
+		$comment = get_comment( $comment );
+
+		$comment_date = $gmt ? $comment->comment_date_gmt : $comment->comment_date;
+		if ( '' == $d )
+			$date = mysql2date(get_option('time_format'), $comment_date, $translate);
+		else
+			$date = mysql2date($d, $comment_date, $translate);
+
+		return apply_filters( 'get_comment_time', $date, $d, $gmt, $translate, $comment );
+	}
+
+	public static function edit_post_link( $text = null, $before = '', $after = '', $post = 0, $class = 'post-edit-link' ) {
 		if ( null === $text ) {
-			$post_type = self::get_post_type_object();
+			$post = get_post( $post );
+			$post_type = get_post_type_object( $post ? $post->post_type : 'post' );
 			$text = sprintf( __( 'Edit %s', 'wp-starter-theme' ), $post_type->labels->singular_name );
 		}
 
-		\edit_post_link( $text, $before, $after, $id, $class );
+		\edit_post_link( $text, $before, $after, $post, $class );
 	}
 
-	public static function get_post_type_object( $post_type = null ) {
-		if ( null === $post_type ) {
-			if ( $post = get_post() ) {
-				$post_type = $post->post_type;
-			} else {
-				$post_type = 'post';
-			}
+	public static function edit_comment_link( $text = null, $before = '', $after = '', $comment = 0, $class = 'comment-edit-link' ) {
+		$comment = get_comment( $comment );
+
+		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
+			return;
 		}
 
-		return \get_post_type_object( $post_type );
+		if ( null === $text ) {
+			$text = __( 'Edit This' );
+		}
+
+		$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
+
+		/**
+		 * Filter the comment edit link anchor tag.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param string $link       Anchor tag for the edit link.
+		 * @param int    $comment_id Comment ID.
+		 * @param string $text       Anchor text.
+		 */
+		echo $before . apply_filters( 'edit_comment_link', $link, $comment->comment_ID, $text ) . $after;
 	}
 
 	public static function is_multi_categories() {
@@ -253,8 +333,8 @@ final class TemplateTags {
 		add_action( 'save_post', array( __CLASS__, '_clear_is_multi_terms_post_cache' ), 10, 1 );
 	}
 
-	private static function _clear_is_multi_terms_post_cache( $post_id ) {
-		self::_clear_is_multi_terms_cache( get_object_taxonomies( get_post( $post_id ) );
+	public static function _clear_is_multi_terms_post_cache( $post_id ) {
+		self::_clear_is_multi_terms_cache( get_object_taxonomies( get_post( $post_id ) ) );
 	}
 
 	private static function _clear_is_multi_terms_cache( $taxonomies ) {

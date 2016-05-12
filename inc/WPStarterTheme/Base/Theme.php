@@ -26,7 +26,9 @@ final class Theme {
 		Util\Template::init();
 		Util\TemplateTags::init();
 		Util\Images::init();
+		Util\Shortcodes::init();
 		Util\BootstrapNavMenu::init();
+		Util\BootstrapGallery::init();
 		Assets::instance()->run();
 		Customizer::instance()->run();
 
@@ -74,6 +76,7 @@ final class Theme {
 	private function register_nav_menus() {
 		register_nav_menus( array(
 			'primary'	=> __( 'Primary Navigation', 'wp-starter-theme' ),
+			'social'	=> __( 'Social Menu', 'wp-starter-theme' ),
 		) );
 	}
 

@@ -61,7 +61,7 @@ var composer = require( 'gulp-composer' );
 var bower = require( 'bower' );
 
 var php = {
-	files: [ './*.php', './inc/**/*.php' ]
+	files: [ './*.php', './inc/**/*.php', './template-parts/**/*.php' ]
 };
 
 var sass = {
@@ -126,23 +126,23 @@ gulp.task( 'sass', function( done ) {
 			extname: '.min.css'
 		}) )
 		.pipe( gulp.dest( sass.dst ) )
-		.on( 'end', done );
-
-	gulp.src( sass.src + 'editor.scss' )
-		.pipe( sass.compile({
-			errLogToConsole: true
-		}) )
-		.pipe( sass.lint() )
-		.pipe( gulp.dest( sass.dst ) )
-		.pipe( sass.minify({
-			keepSpecialComments: 0
-		}) )
-		.pipe( banner( assetheader ) )
-		.pipe( rename({
-			extname: '.min.css'
-		}) )
-		.pipe( gulp.dest( sass.dst ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( sass.src + 'editor.scss' )
+				.pipe( sass.compile({
+					errLogToConsole: true
+				}) )
+				.pipe( sass.lint() )
+				.pipe( gulp.dest( sass.dst ) )
+				.pipe( sass.minify({
+					keepSpecialComments: 0
+				}) )
+				.pipe( banner( assetheader ) )
+				.pipe( rename({
+					extname: '.min.css'
+				}) )
+				.pipe( gulp.dest( sass.dst ) )
+				.on( 'end', done );
+		});
 });
 
 // compile JavaScript
@@ -159,20 +159,20 @@ gulp.task( 'js', function( done ) {
 			extname: '.min.js'
 		}) )
 		.pipe( gulp.dest( js.dst ) )
-		.on( 'end', done );
-
-	gulp.src( js.src + 'customize-preview.js' )
-		.pipe( js.lint({
-			lookup: true
-		}) )
-		.pipe( gulp.dest( js.dst ) )
-		.pipe( js.minify() )
-		.pipe( banner( assetheader ) )
-		.pipe( rename({
-			extname: '.min.js'
-		}) )
-		.pipe( gulp.dest( js.dst ) )
-		.on( 'end', done );
+		.on( 'end', function() {
+			gulp.src( js.src + 'customize-preview.js' )
+				.pipe( js.lint({
+					lookup: true
+				}) )
+				.pipe( gulp.dest( js.dst ) )
+				.pipe( js.minify() )
+				.pipe( banner( assetheader ) )
+				.pipe( rename({
+					extname: '.min.js'
+				}) )
+				.pipe( gulp.dest( js.dst ) )
+				.on( 'end', done );
+		});
 });
 
 // generate POT file

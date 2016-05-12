@@ -48,7 +48,7 @@ final class Customizer {
 
 	public function customize_preview_init() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version = Theme::get_info( 'Version' );
+		$version = Theme::instance()->get_info( 'Version' );
 
 		wp_enqueue_script( 'wp-starter-theme-customize-preview', Util\Path::get_url( 'assets/dist/js/customize-preview' . $min . '.js' ), array( 'jquery', 'customize-preview' ), $version, true );
 	}
