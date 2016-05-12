@@ -21,7 +21,7 @@ if ( post_password_required() ) {
 			'type' 		=> 'comment',
 		) );
 		wp_list_comments( array(
-			'type'		=> 'ping',
+			'type'		=> 'pings',
 			'before'	=> '<h3>' . __( 'Pingbacks / Trackbacks', 'wp-starter-theme' ),
 		) );
 		?>
