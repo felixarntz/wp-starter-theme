@@ -1,3 +1,13 @@
+img,
+.wp-caption {
+	max-width: 100%;
+	height: auto;
+}
+
+img.avatar {
+	max-width: none;
+}
+
 .alignnone {
 	margin: $alignment-spacing-y $alignment-spacing-x;
 }
@@ -17,6 +27,13 @@
 	margin: $alignment-spacing-y $alignment-spacing-x $alignment-spacing-y 0;
 }
 
+.wp-caption.aligncenter {
+	a,
+	img {
+		display: block;
+	}
+}
+
 .screen-reader-text {
 	@include sr-only();
 
@@ -28,4 +45,3 @@
 		clip: auto !important;
 	}
 }
-
