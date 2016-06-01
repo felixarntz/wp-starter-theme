@@ -3,20 +3,36 @@
 	> div {
 		margin-bottom: 1rem;
 	}
-}
 
-.comments-area {
-	.media-left {
-		padding-right: 0;
+	blockquote {
+		padding: ($spacer / 2) $spacer;
+		margin-bottom: $spacer;
+		font-size: $blockquote-font-size;
+		border-left: .25rem solid $blockquote-border-color;
 
-		span,
-		a {
+		p {
+			margin-bottom: 0;
+		}
+
+		p cite,
+		footer {
 			display: block;
-			padding-right: 10px;
+			font-size: 80%; // back to default font-size
+			line-height: $line-height;
+			color: $blockquote-small-color;
+		}
 
-			img {
-				display: block;
-			}
+		footer {
+			margin-top: 1rem;
 		}
 	}
+}
+
+.wp-post-image-link,
+.wp-post-image {
+	display: block;
+}
+
+.wp-post-image {
+	margin-bottom: 1rem;
 }

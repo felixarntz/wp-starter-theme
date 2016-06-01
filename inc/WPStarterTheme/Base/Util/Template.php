@@ -26,7 +26,7 @@ final class Template {
 			$cache = self::_get_cache_key( $slug, $data );
 
 			if ( $cache ) {
-				$output = wp_cache_get( 'templateparts', $cache );
+				$output = wp_cache_get( $cache, 'templateparts' );
 				if ( false !== $output ) {
 					$output = self::_add_output_html_comments( $output, $slug, true );
 					if ( $return ) {
@@ -74,7 +74,7 @@ final class Template {
 		$output = ob_get_clean();
 
 		if ( $cache ) {
-			wp_cache_set( 'templateparts', $output, $cache, self::CACHE_DURATION );
+			wp_cache_set( $cache, $output, 'templateparts', self::CACHE_DURATION );
 		}
 
 		$output = self::_add_output_html_comments( $output, $slug );

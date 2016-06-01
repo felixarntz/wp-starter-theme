@@ -10,6 +10,10 @@ if ( post_password_required() ) {
 	return;
 }
 
+if ( ! have_comments() && ! comments_open() ) {
+	return;
+}
+
 ?>
 <div id="comments" class="comments-area">
 

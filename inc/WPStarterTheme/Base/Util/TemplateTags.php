@@ -97,11 +97,11 @@ final class TemplateTags {
 		return $output;
 	}
 
-	public static function the_comment_meta( $comment = null ) {
-		echo self::get_the_comment_meta( $comment );
+	public static function the_comment_meta( $comment = null, $add_below = 'comment', $depth = 0, $max_depth = 0 ) {
+		echo self::get_the_comment_meta( $comment, $add_below, $depth, $max_depth );
 	}
 
-	public static function get_the_comment_meta( $comment = null ) {
+	public static function get_the_comment_meta( $comment = null, $add_below = 'comment', $depth = 0, $max_depth = 0 ) {
 		$comment = get_comment( $comment );
 
 		if ( ! $comment ) {
@@ -111,6 +111,16 @@ final class TemplateTags {
 		$output = '<li class="comment-date"><span class="screen-reader-text">' . _x( 'Posted on', 'Used before the comment date.', 'wp-starter-theme' ) . '</span><time datetime="' . esc_attr( self::get_comment_time( 'c', false, $comment ) ) . '">' . self::get_the_comment_date( $comment ) . '</time></li>';
 
 		$output .= '<li class="comment-author"><span class="screen-reader-text">' . _x( 'Author', 'Used before the comment author name.', 'wp-starter-theme' ) . '</span>' . get_comment_author_link( $comment ) . '</li>';
+
+		if ( 'comment' === $comment->comment_type ) {
+			$output .= get_comment_reply_link( array(
+				'add_below'	=> $add_below,
+				'depth'		=> $depth,
+				'max_depth'	=> $max_depth,
+				'before'	=> '<li class="comment-reply-link-wrap">',
+				'after'		=> '</li>',
+			), $comment );
+		}
 
 		ob_start();
 		self::edit_comment_link( null, '<li class="comment-edit-link">', '</li>', $comment );

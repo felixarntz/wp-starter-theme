@@ -34,6 +34,16 @@ img.avatar {
 	}
 }
 
+.wp-caption {
+	padding: $spacer $spacer (0.5 * $spacer);
+	background-color: rgba(0, 0, 0, 0.065);
+
+	.wp-caption-text {
+		margin-top: 0.5rem;
+		font-size: 0.9rem;
+	}
+}
+
 .screen-reader-text {
 	@include sr-only();
 

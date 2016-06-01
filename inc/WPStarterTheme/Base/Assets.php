@@ -34,6 +34,10 @@ final class Assets {
 		wp_enqueue_script( 'wp-starter-theme', Util\Path::get_url( 'assets/dist/js/app' . $min . '.js' ), $dependencies, $version, true );
 		wp_localize_script( 'wp-starter-theme', 'wp_theme', $this->get_script_vars() );
 
+		if ( is_singular() ) {
+			wp_enqueue_script( 'comment-reply' );
+		}
+
 		if ( WP_DEBUG ) {
 			wp_enqueue_script( 'livereload', untrailingslashit( home_url() ) . ':35729/livereload.js?snipver=1', array(), false, true );
 		}

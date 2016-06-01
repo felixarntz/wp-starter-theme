@@ -96,7 +96,7 @@ final class BootstrapComments {
 							<p><?php _e( 'Your comment is awaiting moderation.', 'wp-starter-theme' ); ?></p>
 						</div>
 					<?php endif; ?>
-					<?php TemplateTags::the_comment_meta( $comment ); ?>
+					<?php TemplateTags::the_comment_meta( $comment, $add_below, $depth, $args['max_depth'] ); ?>
 					<div class="comment-content">
 						<?php comment_text( get_comment_id(), array_merge( $args, array(
 							'add_below'	=> $add_below,
@@ -104,13 +104,6 @@ final class BootstrapComments {
 							'max_depth'	=> $args['max_depth'],
 						) ) ); ?>
 					</div>
-					<?php comment_reply_link( array_merge( $args, array(
-						'add_below'	=> $add_below,
-						'depth'		=> $depth,
-						'max_depth'	=> $args['max_depth'],
-						'before'	=> '<div class="reply">',
-						'after'		=> '</div>',
-					) ) ); ?>
 			<?php endif; ?>
 		<?php
 	}
