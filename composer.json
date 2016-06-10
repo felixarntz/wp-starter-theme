@@ -19,7 +19,7 @@
     {
       "name": "Felix Arntz",
       "email": "felix-arntz@leaves-and-love.net",
-      "homepage": "http://leaves-and-love.net",
+      "homepage": "https://leaves-and-love.net",
       "role": "Developer"
     }
   ],
@@ -42,7 +42,7 @@
   },
   "extra": {
     "installer-paths": {
-      "vendor/felixarntz/{$name}/": ["felixarntz/wp-objects", "felixarntz/customizer-definitely"]
+      "vendor/felixarntz/{$name}/": ["felixarntz/wpdlib", "felixarntz/wp-objects", "felixarntz/customizer-definitely"]
     }
   }
 }

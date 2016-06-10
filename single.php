@@ -8,28 +8,28 @@ namespace WPStarterTheme;
 
 get_header(); ?>
 
-			<div class="container">
-				<div class="row">
+		<div class="container">
+			<div class="row">
 
-					<main id="main" class="col-md-<?php echo ( is_active_sidebar( 'primary' ) ? 9 : 12 ); ?>" role="main">
+				<main id="main" class="site-content col-md-<?php echo ( is_active_sidebar( 'primary' ) ? 9 : 12 ); ?>" role="main">
 
-						<?php
-						while( have_posts() ) : the_post();
+					<?php
+					while( have_posts() ) : the_post();
 
-							get_template_part( 'template-parts/content', array(
-								'name'		=> get_post_type(),
-								'post'		=> \WPOO\Post::get( get_the_ID() ),
-								'singular'	=> true,
-							), true );
+						get_template_part( 'template-parts/content', array(
+							'name'		=> get_post_type(),
+							'post'		=> \WPOO\Post::get( get_the_ID() ),
+							'singular'	=> true,
+						), true );
 
-						endwhile;
-						?>
+					endwhile;
+					?>
 
-					</main>
+				</main>
 
-					<?php get_sidebar( 'primary' ); ?>
+				<?php get_sidebar( 'primary' ); ?>
 
-				</div>
 			</div>
+		</div>
 
 <?php get_footer();

@@ -21,7 +21,8 @@ final class Customizer {
 	public function run() {
 		add_action( 'wpcd', array( $this, 'add_customize_components' ), 10, 1 );
 		add_action( 'customize_register', array( $this, 'customize_register' ), 10, 1 );
-		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
+		add_filter( 'wpcd_custom_callback_function_scripts', array( $this, 'customize_script' ), 10, 1 );
+		add_action( 'customize_preview_init', array( $this, 'customize_localize_script' ), 100, 1 );
 	}
 
 	public function add_customize_components( $wpcd ) {
@@ -36,28 +37,27 @@ final class Customizer {
 			$wp_customize->selective_refresh->add_partial( 'blogname', array(
 				'selector'				=> '.site-title a',
 				'container_inclusive'	=> false,
-				'render_callback'		=> array( $this, 'partial_blogname' ),
+				'render_callback'		=> array( Partials::instance(), 'render_blogname' ),
 			) );
 			$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
 				'selector'				=> '.site-description',
 				'container_inclusive'	=> false,
-				'render_callback'		=> array( $this, 'partial_blogdescription' ),
+				'render_callback'		=> array( Partials::instance(), 'render_blogdescription' ),
 			) );
 		}
 	}
 
-	public function customize_preview_init() {
+	public function customize_script( $scripts ) {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version = Theme::instance()->get_info( 'Version' );
 
-		wp_enqueue_script( 'wp-starter-theme-customize-preview', Util\Path::get_url( 'assets/dist/js/customize-preview' . $min . '.js' ), array( 'jquery', 'customize-preview' ), $version, true );
+		$scripts['wp-starter-theme-customize-preview'] = Util\Path::get_url( 'assets/dist/js/customize-preview' . $min . '.js' );
+
+		return $scripts;
 	}
 
-	public function partial_blogname() {
-		bloginfo( 'name' );
-	}
-
-	public function partial_blogdescription() {
-		bloginfo( 'description' );
+	public function customize_localize_script() {
+		wp_localize_script( 'wp-starter-theme-customize-preview', lcfirst( 'WPStarterTheme' ), array(
+			'nonces'	=> AJAX::instance()->get_nonces(),
+		) );
 	}
 }

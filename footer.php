@@ -7,9 +7,7 @@
 namespace WPStarterTheme;
 
 ?>
-		</div><!-- #content -->
-
-		<footer id="footer" role="contentinfo">
+		<footer id="footer" class="site-footer" role="contentinfo">
 
 			<div class="container">
 
@@ -19,7 +17,10 @@ namespace WPStarterTheme;
 					</nav>
 				<?php endif; ?>
 
-				<p class="copyright">&copy; <?php echo date( 'Y' ); ?> <a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></p>
+				<p class="copyright">
+					&copy; <?php echo date( 'Y' ); ?>
+					<a href="<?php bloginfo( 'url' ); ?>"><?php theme()->partials()->render_blogname(); ?></a>
+				</p>
 
 			</div>
 

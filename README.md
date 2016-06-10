@@ -1,12 +1,10 @@
-WP Starter Theme
-================
+# WP Starter Theme
 
 **WORK IN PROGRESS**
 
 This is a WordPress starter theme using modern technologies.
 
-Contributions and Bugs
-----------------------
+## Contributions and Bugs
 
 If you have ideas on how to improve the starter theme or if you discover a bug, I would appreciate if you shared them with me, right here on Github. In either case, please open a new issue [here](https://github.com/felixarntz/wp-starter-theme/issues/new)!
 

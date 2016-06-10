@@ -31,6 +31,8 @@ final class Theme {
 		Util\BootstrapGallery::init();
 		Assets::instance()->run();
 		Customizer::instance()->run();
+		AJAX::instance()->run();
+		PluginCompat::instance()->run();
 
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
@@ -110,6 +112,14 @@ final class Theme {
 			}
 			trigger_error( $message );
 		}
+	}
+
+	public function customizer() {
+		return Customizer::instance();
+	}
+
+	public function partials() {
+		return Partials::instance();
 	}
 }
 

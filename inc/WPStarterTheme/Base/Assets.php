@@ -25,7 +25,7 @@ final class Assets {
 	public function enqueue() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$version = Theme::instance()->get_info( 'Version' );
-		$dependencies = array( 'jquery', 'fancybox' );
+		$dependencies = array( 'jquery', 'wp-util', 'fancybox' );
 
 		wp_enqueue_style( 'fancybox', Util\Path::get_url( 'assets/vendor/fancybox/source/jquery.fancybox.css' ), array(), '2.1.5' );
 		wp_enqueue_script( 'fancybox', Util\Path::get_url( 'assets/vendor/fancybox/source/jquery.fancybox.pack.js' ), array( 'jquery' ), '2.1.5', true );

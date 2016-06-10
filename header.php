@@ -18,12 +18,12 @@ namespace WPStarterTheme;
 
 	<body <?php body_class(); ?>>
 
-		<header id="header" role="banner">
+		<header id="header" class="site-header" role="banner">
 
 			<div class="container">
 
-				<h1 class="site-title"><a href="<?php bloginfo( 'url' ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
-				<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
+				<h1 class="site-title"><a href="<?php bloginfo( 'url' ); ?>"><?php theme()->partials()->render_blogname(); ?></a></h1>
+				<h2 class="site-description"><?php theme()->partials()->render_blogdescription(); ?></h2>
 
 				<?php if ( function_exists( 'the_custom_logo' ) ) : ?>
 					<?php the_custom_logo(); ?>
@@ -38,5 +38,3 @@ namespace WPStarterTheme;
 			</div>
 
 		</header><!-- #header -->
-
-		<div id="content">

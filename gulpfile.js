@@ -2,6 +2,23 @@
 
 var pkg = require( './package.json' );
 
+function parseKeywords( keywords ) {
+	// These keywords are useful for Packagist/NPM/Bower, but not for the WordPress theme repository.
+	var disallowed = [ 'wordpress', 'theme' ];
+
+	k = keywords;
+	for ( var i in disallowed ) {
+		var index = k.indexOf( disallowed[ i ] );
+		if ( -1 < index ) {
+			k.splice( index, 1 );
+		}
+	}
+
+	return k;
+}
+
+var keywords = parseKeywords( pkg.keywords );
+
 var config = {
 	namespace: 'WPStarterTheme',
 	textdomain: 'wp-starter-theme',
@@ -13,7 +30,7 @@ var config = {
 	version: pkg.version,
 	license: pkg.license.name,
 	licenseURI: pkg.license.url,
-	tags: pkg.keywords.join( ', ' ),
+	tags: keywords.join( ', ' ),
 	translateURI: pkg.homepage
 };
 

@@ -1,4 +1,4 @@
-( function( $, wp ) {
+( function( exports, $, wp ) {
 
 	wp.customize( 'blogname', function( value ) {
 		value.bind( function( to ) {
@@ -12,4 +12,4 @@
 		});
 	});
 
-}( jQuery, wp ) );
+}( wpcd_customizer, jQuery, wp ) );
