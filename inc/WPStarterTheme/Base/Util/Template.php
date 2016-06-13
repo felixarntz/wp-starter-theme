@@ -14,6 +14,8 @@ final class Template {
 			$data = array( 'name' => $data );
 		}
 
+		$cache = self::_maybe_prevent_caching( $slug, $data, $cache );
+
 		$data = wp_parse_args( $data, array(
 			'name'		=> '',
 			'return'	=> false,
@@ -134,6 +136,22 @@ final class Template {
 		return '<!-- ' . $start . ' -->' . "\n" . $output . '<!-- ' . $end . ' -->' . "\n";
 	}
 
+	private static function _maybe_prevent_caching( $slug, $data = array(), $cache = false ) {
+		if ( ! $cache ) {
+			return $cache;
+		}
+
+		if ( isset( $_REQUEST['wp_customize'] ) && 'on' === $_REQUEST['wp_customize'] ) {
+			return false;
+		}
+
+		if ( isset( $_REQUEST['preview'] ) && $_REQUEST['preview'] && isset( $_REQUEST['p'] ) && in_array( $_REQUEST['p'], $data ) ) {
+			return false;
+		}
+
+		return $cache;
+	}
+
 	private static function _get_cache_key( $slug, $data = array() ) {
 		$cache_args = array( 'slug' => str_replace( 'template-parts/', '', $slug ) );
 		foreach ( $data as $key => $value ) {
@@ -152,15 +170,22 @@ final class Template {
 			return false;
 		}
 
-		$cache_key = '';
+		$cache_key_parts = array();
+
 		foreach ( $cache_args as $key => $value ) {
 			if ( is_array( $value ) ) {
 				$value = serialize( $value );
 			} elseif ( is_bool( $value ) ) {
 				$value = $value ? 'true' : 'false';
 			}
-			$cache_key .= $key . ':' . $value . ';';
+
+			if ( empty( $key ) || empty( $value ) ) {
+				continue;
+			}
+
+			$cache_key_parts[] = $key . '---' . $value;
 		}
-		return $cache_key;
+
+		return implode( ':', $cache_key_parts );
 	}
 }
