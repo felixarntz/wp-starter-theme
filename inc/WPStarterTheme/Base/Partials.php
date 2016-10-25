@@ -26,4 +26,22 @@ final class Partials {
 	public function render_blogdescription() {
 		bloginfo( 'description' );
 	}
+
+	public function render_loop() {
+		while ( have_posts() ) {
+			the_post();
+			$slug = 'content';
+			$name = get_post_type();
+			if ( 'post' === $name ) {
+				$slug .= '-post';
+				$name = get_post_format();
+			}
+
+			\WPStarterTheme\get_template_part( 'template-parts/' . $slug, array(
+				'name'		=> $name,
+				'post'		=> \WPOO\Post::get( get_the_ID() ),
+				'singular'	=> false,
+			), true );
+		}
+	}
 }

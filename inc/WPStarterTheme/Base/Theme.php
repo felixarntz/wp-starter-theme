@@ -56,11 +56,25 @@ final class Theme {
 
 	private function add_theme_support() {
 		add_theme_support( 'title-tag' );
-		add_theme_support( 'custom-logo', array( 'size' => 'medium', 'header-text' => array( 'site-title', 'site-description' ) ) );
+		add_theme_support( 'custom-logo', array(
+			'size'        => 'medium',
+			'header-text' => array( 'site-title', 'site-description' )
+		) );
 		add_theme_support( 'automatic-feed-links' );
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
 		add_theme_support( 'post-thumbnails' );
+
+		add_theme_support( 'infinite-scroll', array(
+			'container'      => 'posts-list',
+			'footer'         => false,
+			'footer_widgets' => false,
+			'wrapper'        => false,
+		) );
+		add_theme_support( 'frontkit', array(
+			'title'   => '.single-post .post-title',
+			'content' => '.single-post .post-content',
+		) );
 	}
 
 	private function add_image_sizes() {

@@ -8,7 +8,7 @@ namespace WPStarterTheme;
 
 ?>
 <article id="post-<?php echo $post->get_ID(); ?>" <?php echo $post->get_classes( '', true ); ?>>
-	<h1>
+	<h1 class="post-title">
 		<?php if ( $singular ) : ?>
 			<?php echo $post->get_data( 'title', true ); ?>
 		<?php else : ?>

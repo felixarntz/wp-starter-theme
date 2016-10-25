@@ -21,25 +21,10 @@ get_header(); ?>
 							</header>
 						<?php endif; ?>
 
-						<?php
+						<div id="posts-list" class="posts-list">
+							<?php theme()->partials()->render_loop(); ?>
+						</div>
 
-						while( have_posts() ) : the_post();
-
-							$slug = 'content';
-							$name = get_post_type();
-							if ( 'post' === $name ) {
-								$slug .= '-post';
-								$name = get_post_format();
-							}
-							get_template_part( 'template-parts/' . $slug, array(
-								'name'		=> $name,
-								'post'		=> \WPOO\Post::get( get_the_ID() ),
-								'singular'	=> false,
-							), true );
-
-						endwhile;
-
-						?>
 					<?php else : ?>
 						<?php get_template_part( 'template-parts/content', 'none' ); ?>
 					<?php endif; ?>
