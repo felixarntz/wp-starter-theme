@@ -59,7 +59,7 @@ final class AJAX extends ThemeUtilityBase {
 	public function __construct( $theme ) {
 		parent::__construct( $theme );
 
-		$this->prefix = str_replace( '-', '_', 'wp-starter-theme' ) . '_';
+		$this->prefix = 'wp_starter_theme_';
 
 		$this->actions = array();
 		$this->actions_nopriv = array();

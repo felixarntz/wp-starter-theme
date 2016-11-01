@@ -21,6 +21,7 @@ var keywords = parseKeywords( pkg.keywords );
 
 var config = {
 	namespace: 'WPStarterTheme',
+	slug: 'wp_starter_theme',
 	textdomain: 'wp-starter-theme',
 	themeName: 'WP Starter Theme',
 	themeURI: pkg.homepage,
@@ -221,6 +222,7 @@ gulp.task( 'init-replace', function( done ) {
 	gulp.src( php.files, { base: './' })
 		.pipe( replace( 'WPStarterTheme', config.namespace ) )
 		.pipe( replace( 'wp-starter-theme', config.textdomain ) )
+		.pipe( replace( 'wp_starter_theme', config.slug ) )
 		.pipe( gulp.dest( './' ) )
 		.on( 'end', function() {
 			gulp.src( './composer.json', { base: './' })
