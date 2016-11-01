@@ -24,18 +24,8 @@ namespace WPStarterTheme;
 
 		<div class="container">
 
-			<h1 class="site-title"><a href="<?php bloginfo( 'url' ); ?>"><?php theme()->partials()->render_blogname(); ?></a></h1>
-			<h2 class="site-description"><?php theme()->partials()->render_blogdescription(); ?></h2>
-
-			<?php if ( function_exists( 'the_custom_logo' ) ) : ?>
-				<?php the_custom_logo(); ?>
-			<?php endif; ?>
-
-			<?php if ( has_nav_menu( 'primary' ) ) : ?>
-				<nav class="navbar navbar-light bg-faded" role="navigation">
-					<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav navbar-nav' ) ); ?>
-				</nav>
-			<?php endif; ?>
+			<?php get_template_part( 'template-parts/header', 'branding' ); ?>
+			<?php get_template_part( 'template-parts/header', 'navigation' ); ?>
 
 		</div>
 
