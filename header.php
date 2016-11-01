@@ -18,6 +18,8 @@ namespace WPStarterTheme;
 
 	<body <?php body_class(); ?>>
 
+		<a class="skip-link screen-reader-text" href="#main"><?php _e( 'Skip to content', 'wp-starter-theme' ); ?></a>
+
 		<header id="header" class="site-header" role="banner">
 
 			<div class="container">
