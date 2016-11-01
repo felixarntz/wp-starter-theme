@@ -10,20 +10,20 @@ namespace WPStarterTheme;
 
 get_header(); ?>
 
-		<main id="main" class="site-content" role="main">
+	<main id="main" class="site-content" role="main">
 
-			<?php
-			while( have_posts() ) : the_post();
+		<?php
+		while( have_posts() ) : the_post();
 
-				get_template_part( 'template-parts/content', array(
-					'name'		=> get_post_type(),
-					'post'		=> \WPOO\Post::get( get_the_ID() ),
-					'singular'	=> true,
-				), true );
+			get_template_part( 'template-parts/content', array(
+				'name'		=> get_post_type(),
+				'post'		=> \WPOO\Post::get( get_the_ID() ),
+				'singular'	=> true,
+			), true );
 
-			endwhile;
-			?>
+		endwhile;
+		?>
 
-		</main>
+	</main>
 
 <?php get_footer();
