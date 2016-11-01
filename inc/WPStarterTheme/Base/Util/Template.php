@@ -6,15 +6,34 @@
 
 namespace WPStarterTheme\Base\Util;
 
+/**
+ * Class to improve template handling.
+ *
+ * @since 1.0.0
+ */
 final class Template {
 	const CACHE_DURATION = 3600;
 
+	/**
+	 * Renders a template.
+	 *
+	 * This method can be called instead of get_template_part() to support caching and passing data to the template.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param string       $slug  The template slug.
+	 * @param string|array $data  The template suffix or array of data to pass to the template.
+	 * @param bool         $cache Whether to cache the template.
+	 * @return string The template output.
+	 */
 	public static function render( $slug, $data = array(), $cache = false ) {
 		if ( is_string( $data ) ) {
 			$data = array( 'name' => $data );
 		}
 
-		$cache = self::_maybe_prevent_caching( $slug, $data, $cache );
+		$cache = self::maybe_prevent_caching( $slug, $data, $cache );
 
 		$data = wp_parse_args( $data, array(
 			'name'		=> '',
@@ -25,12 +44,12 @@ final class Template {
 		unset( $data['return'] );
 
 		if ( $cache ) {
-			$cache = self::_get_cache_key( $slug, $data );
+			$cache = self::get_cache_key( $slug, $data );
 
 			if ( $cache ) {
 				$output = wp_cache_get( $cache, 'templateparts' );
 				if ( false !== $output ) {
-					$output = self::_add_output_html_comments( $output, $slug, true );
+					$output = self::add_output_html_comments( $output, $slug, true );
 					if ( $return ) {
 						return $output;
 					}
@@ -71,7 +90,7 @@ final class Template {
 				$require_once = false;
 		}
 
-		self::_load_template( $filename, $data, $require_once );
+		self::load_template( $filename, $data, $require_once );
 
 		$output = ob_get_clean();
 
@@ -79,7 +98,7 @@ final class Template {
 			wp_cache_set( $cache, $output, 'templateparts', self::CACHE_DURATION );
 		}
 
-		$output = self::_add_output_html_comments( $output, $slug );
+		$output = self::add_output_html_comments( $output, $slug );
 
 		if ( $return ) {
 			return $output;
@@ -88,11 +107,31 @@ final class Template {
 		echo $output;
 	}
 
+	/**
+	 * Adds general filters to support a template for the password form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function init() {
-		add_filter( 'the_password_form', array( __CLASS__, '_get_the_password_form' ) );
+		add_filter( 'the_password_form', array( __CLASS__, 'get_the_password_form' ) );
 	}
 
-	public static function _get_the_password_form( $output ) {
+	/**
+	 * Tries to find a template for the password form.
+	 *
+	 * This method is used as callback and should not be called directly.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @internal
+	 *
+	 * @param string $output Password form output.
+	 * @return Modified password form output.
+	 */
+	public static function get_the_password_form( $output ) {
 		$filename = locate_template( array( 'passwordform.php' ), false, false );
 
 		if ( ! $filename ) {
@@ -104,14 +143,25 @@ final class Template {
 			$post = get_post( $matches[1] );
 
 			ob_start();
-			self::_load_template( $filename, array( 'post'	=> $post ), false );
+			self::load_template( $filename, array( 'post'	=> $post ), false );
 			$output = ob_get_clean();
 		}
 
 		return $output;
 	}
 
-	private static function _load_template( $filename, $data = array(), $require_once = true ) {
+	/**
+	 * Loads a template and passes data to it.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 *
+	 * @param string $filename     Filename of the template.
+	 * @param array  $data         Data to pass to the template.
+	 * @param bool   $require_once Optional. Whether to use require_once to load the file. Default false.
+	 */
+	private static function load_template( $filename, $data = array(), $require_once = true ) {
 		extract( $data, EXTR_SKIP );
 
 		if ( $require_once ) {
@@ -121,7 +171,19 @@ final class Template {
 		}
 	}
 
-	private static function _add_output_html_comments( $output, $slug, $cached = false ) {
+	/**
+	 * Adds HTML comments about caching when WP_DEBUG is enabled.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 *
+	 * @param string $output The template output.
+	 * @param string $slug   The template slug.
+	 * @param bool   $cached Whether a cached result was returned.
+	 * @return string The modified template output.
+	 */
+	private static function add_output_html_comments( $output, $slug, $cached = false ) {
 		if ( ! WP_DEBUG ) {
 			return $output;
 		}
@@ -136,7 +198,19 @@ final class Template {
 		return '<!-- ' . $start . ' -->' . "\n" . $output . '<!-- ' . $end . ' -->' . "\n";
 	}
 
-	private static function _maybe_prevent_caching( $slug, $data = array(), $cache = false ) {
+	/**
+	 * Checks whether caching should be handled or not.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 *
+	 * @param string $slug  The template slug.
+	 * @param array  $data  The template data.
+	 * @param bool   $cache The original cache value.
+	 * @return bool The possibly modified cache value.
+	 */
+	private static function maybe_prevent_caching( $slug, $data = array(), $cache = false ) {
 		if ( ! $cache ) {
 			return $cache;
 		}
@@ -152,7 +226,18 @@ final class Template {
 		return $cache;
 	}
 
-	private static function _get_cache_key( $slug, $data = array() ) {
+	/**
+	 * Returns the unique cache key for a given slug and data.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 *
+	 * @param string $slug The template slug.
+	 * @param array  $data The template data.
+	 * @return string|bool The cache key, or false if impossible to detect a unique cache key.
+	 */
+	private static function get_cache_key( $slug, $data = array() ) {
 		$cache_args = array( 'slug' => str_replace( 'template-parts/', '', $slug ) );
 		foreach ( $data as $key => $value ) {
 			if ( is_scalar( $value ) || is_array( $value ) ) {

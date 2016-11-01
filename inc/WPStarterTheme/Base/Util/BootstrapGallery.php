@@ -6,7 +6,24 @@
 
 namespace WPStarterTheme\Base\Util;
 
+/**
+ * Class to render the gallery shortcode in a Bootstrap-compatible way.
+ *
+ * @since 1.0.0
+ */
 final class BootstrapGallery {
+	/**
+	 * Overrides the gallery shortcode output in a Bootstrap-compatible way.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param string $output   Empty string.
+	 * @param array  $attr     The attributes for the gallery shortcode.
+	 * @param int    $instance The instance number of the gallery shortcode.
+	 * @return string The gallery shortcode output.
+	 */
 	public static function gallery_shortcode( $output, $attr, $instance ) {
 		$post = get_post();
 
@@ -96,7 +113,7 @@ final class BootstrapGallery {
 			return $output;
 		}
 
-		add_filter( 'wp_get_attachment_link', array( __CLASS__, 'fix_attachment_link' ), 10, 6 );
+		add_filter( 'wp_get_attachment_link', array( __CLASS__, 'fix_attachment_link' ), 10, 2 );
 
 		$unique = ( get_query_var( 'page' ) ) ? $instance . '-p' . get_query_var( 'page' ): $instance;
 		$output = '<div id="gallery-' . $id . '-' . $unique . '" class="gallery">';
@@ -128,17 +145,39 @@ final class BootstrapGallery {
 		$output .= ( $i % $columns != 0 ) ? '</div>' : '';
 		$output .= '</div>';
 
-		remove_filter( 'wp_get_attachment_link', array( __CLASS__, 'fix_attachment_link' ), 10, 6 );
+		remove_filter( 'wp_get_attachment_link', array( __CLASS__, 'fix_attachment_link' ), 10, 2 );
 
 		return $output;
 	}
 
-	public static function fix_attachment_link( $html, $id, $size, $permalink = false, $icon = false, $text = false ) {
+	/**
+	 * Modifies an attachment link.
+	 *
+	 * This method is used as callback and should not be called directly.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @internal
+	 *
+	 * @param string $html The link output.
+	 * @param int    $id   The attachment ID.
+	 * @return The modified link output.
+	 */
+	public static function fix_attachment_link( $html, $id ) {
 		$html = str_replace( '<a', '<a title="' . get_the_title( $id ) . '"', $html );
 		$html = str_replace( '<a', '<a class="img-thumbnail"', $html );
+
 		return $html;
 	}
 
+	/**
+	 * Adds general filters to make the gallery shortcode compatible with Bootstrap.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function init() {
 		add_filter( 'post_gallery', array( __CLASS__, 'gallery_shortcode' ), 10, 3 );
 		add_filter( 'use_default_gallery_style', '__return_null' );

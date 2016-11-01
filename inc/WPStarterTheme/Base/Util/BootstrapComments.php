@@ -6,13 +6,30 @@
 
 namespace WPStarterTheme\Base\Util;
 
+/**
+ * Class to render comment lists in a Bootstrap-compatible way.
+ *
+ * @since 1.0.0
+ */
 final class BootstrapComments {
+	/**
+	 * Lists comments.
+	 *
+	 * This method should be called instead of wp_list_comments() to list comments in a Bootstrap-compatible way.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of wp_list_comments() arguments.
+	 * @return string The comment list output.
+	 */
 	public static function wp_list_comments( $args = array() ) {
 		$echo = ! isset( $args['echo'] ) || $args['echo'];
 
 		$args['style'] = 'div';
-		$args['callback'] = array( __CLASS__, '_render_comment' );
-		$args['end-callback'] = array( __CLASS__, '_end_comment' );
+		$args['callback'] = array( __CLASS__, 'render_comment' );
+		$args['end-callback'] = array( __CLASS__, 'end_comment' );
 		$args['echo'] = false;
 
 		if ( ! isset( $args['avatar_size'] ) ) {
@@ -41,6 +58,17 @@ final class BootstrapComments {
 		}
 	}
 
+	/**
+	 * Renders a comment form.
+	 *
+	 * This method should be called instead of comment_form() to create a Bootstrap-compatible comment form.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of comment_form() arguments.
+	 */
 	public static function comment_form( $args = array() ) {
 		$commenter = wp_get_current_commenter();
 
@@ -61,7 +89,21 @@ final class BootstrapComments {
 		\comment_form( $args );
 	}
 
-	public static function _render_comment( $comment, $args, $depth ) {
+	/**
+	 * Opens and renders a single comment.
+	 *
+	 * This method is used as callback and should not be called directly.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @internal
+	 *
+	 * @param WP_Comment $comment Comment data object.
+	 * @param array      $args    Array of wp_list_comments() arguments.
+	 * @param int        $depth   Depth of comment.
+	 */
+	public static function render_comment( $comment, $args, $depth ) {
 		$tag = 'li';
 		$add_below = 'comment';
 		if ( 1 < $depth ) {
@@ -108,7 +150,21 @@ final class BootstrapComments {
 		<?php
 	}
 
-	public static function _end_comment( $comment, $args, $depth ) {
+	/**
+	 * Closes a single comment.
+	 *
+	 * This method is used as callback and should not be called directly.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @internal
+	 *
+	 * @param WP_Comment $comment Comment data object.
+	 * @param array      $args    Array of wp_list_comments() arguments.
+	 * @param int        $depth   Depth of comment.
+	 */
+	public static function end_comment( $comment, $args, $depth ) {
 		$tag = 'li';
 		if ( 0 < $depth ) {
 			$tag = 'div';

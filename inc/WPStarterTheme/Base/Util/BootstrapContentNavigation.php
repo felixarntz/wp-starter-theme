@@ -6,9 +6,34 @@
 
 namespace WPStarterTheme\Base\Util;
 
+/**
+ * Class to render several navigation elements in a Bootstrap-compatible way.
+ *
+ * @since 1.0.0
+ */
 final class BootstrapContentNavigation {
+	/**
+	 * Temporary holder for wp_link_pages() alignment.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 * @var bool
+	 */
 	private static $_aligned_helper = false;
 
+	/**
+	 * Renders the post navigation.
+	 *
+	 * This method should be called instead of get_the_post_navigation() for a Bootstrap-compatible post navigation.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of get_the_post_navigation() arguments.
+	 * @return string The post navigation output.
+	 */
 	public static function get_the_post_navigation( $args = array() ) {
 		$args = wp_parse_args( $args, array(
 			'prev_text'				=> '%title',
@@ -39,6 +64,18 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Renders the posts navigation.
+	 *
+	 * This method should be called instead of get_the_posts_navigation() for a Bootstrap-compatible posts navigation.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of get_the_posts_navigation() arguments.
+	 * @return string The posts navigation output.
+	 */
 	public static function get_the_posts_navigation( $args = array() ) {
 		$navigation = '';
 
@@ -77,6 +114,18 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Renders the posts pagination.
+	 *
+	 * This method should be called instead of get_the_posts_pagination() for a Bootstrap-compatible posts pagination.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of get_the_posts_pagination() arguments.
+	 * @return string The posts pagination output.
+	 */
 	public static function get_the_posts_pagination( $args = array() ) {
 		$navigation = '';
 
@@ -143,6 +192,18 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Renders the comments navigation.
+	 *
+	 * This method should be called instead of get_the_comments_navigation() for a Bootstrap-compatible comments navigation.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of get_the_comments_navigation() arguments.
+	 * @return string The comments navigation output.
+	 */
 	public static function get_the_comments_navigation( $args = array() ) {
 		$navigation = '';
 
@@ -181,6 +242,18 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Renders the comments pagination.
+	 *
+	 * This method should be called instead of get_the_comments_pagination() for a Bootstrap-compatible comments pagination.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of get_the_comments_pagination() arguments.
+	 * @return string The comments pagination output.
+	 */
 	public static function get_the_comments_pagination( $args = array() ) {
 		$navigation = '';
 
@@ -247,6 +320,18 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Renders links for a paged post.
+	 *
+	 * This method should be called instead of wp_link_pages() for Bootstrap-compatible page links.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of wp_link_pages() arguments.
+	 * @return string The page links output.
+	 */
 	public static function wp_link_pages( $args = array() ) {
 		$echo = ! isset( $args['echo'] ) || $args['echo'];
 
@@ -282,6 +367,20 @@ final class BootstrapContentNavigation {
 		return $navigation;
 	}
 
+	/**
+	 * Wraps a link from wp_link_pages() in a list element.
+	 *
+	 * This method is used as callback and should not be called directly.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 * @internal
+	 *
+	 * @param string $link  The link output.
+	 * @param int    $index The index of the link.
+	 * @return string The wrapped link.
+	 */
 	public static function _link_pages_link( $link, $index ) {
 		global $page;
 
