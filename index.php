@@ -16,7 +16,7 @@ get_header(); ?>
 				<?php if( have_posts() ) : ?>
 
 					<?php if ( is_home() && ! is_front_page() ) : ?>
-						<header>
+						<header class="main-header">
 							<h1 class="main-title"><?php single_post_title(); ?></h1>
 						</header>
 					<?php endif; ?>
