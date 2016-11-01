@@ -266,7 +266,7 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 			}
 
 			if ( in_array( 'social-menu', $menu_classes, true ) ) {
-				$args['link_before'] = '<span class="sr-only">';
+				$args['link_before'] = '<span class="social-icon" aria-hidden="true"></span><span class="sr-only">';
 				$args['link_after'] = '</span>';
 			}
 		}
