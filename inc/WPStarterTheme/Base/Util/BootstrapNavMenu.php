@@ -6,82 +6,190 @@
 
 namespace WPStarterTheme\Base\Util;
 
+/**
+ * Walker class to render nav menus in a Bootstrap-compatible way.
+ *
+ * @since 1.0.0
+ */
 final class BootstrapNavMenu extends \Walker_Nav_Menu {
+	/**
+	 * CSS class to add to all menu item list elements.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 * @var string
+	 */
 	private static $li_class = '';
-	private static $a_class = '';
-	private static $a_class_override = '';
 
+	/**
+	 * CSS class to add to all menu item links.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 * @var string
+	 */
+	private static $a_class = '';
+
+	/**
+	 * Temporary holder for current link attributes.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @static
+	 * @var array
+	 */
+	private static $a_atts_override = array();
+
+	/**
+	 * Temporary holder for the current dropdown label ID.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
 	private $current_label_id = '';
+
+	/**
+	 * Temporary holder for the current dropdown ID.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
 	private $current_dropdown_id = '';
 
+	/**
+	 * Starts the list before the elements are added.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $output Passed by reference. Used to append additional content.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$html = '';
+		$indent  = $this->get_indent( $depth, $args );
+		$newline = $this->get_newline( $depth, $args );
 
-		parent::start_lvl( $html, $depth, $args );
-
-		$html = str_replace( '<ul class="sub-menu"', '<div id="' . $this->current_dropdown_id . '" class="dropdown-menu" aria-labelledby="' . $this->current_label_id . '"', $html );
+		$output .= "{$newline}{$indent}<div id=\"{$this->current_dropdown_id}\" class=\"dropdown-menu\" aria-labelledby=\"{$this->current_label_id}\">{$newline}";
 
 		$this->current_label_id    = '';
 		$this->current_dropdown_id = '';
-
-		self::$a_class_override = 'dropdown-item';
-
-		$output .= $html;
 	}
 
+	/**
+	 * Ends the list of after the elements are added.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $output Passed by reference. Used to append additional content.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$html = '';
+		$indent  = $this->get_indent( $depth, $args );
+		$newline = $this->get_newline( $depth, $args );
 
-		parent::end_lvl( $html, $depth, $args );
-
-		$html = str_replace( '</ul>', '</div>', $html );
-
-		self::$a_class_override = '';
-
-		$output .= $html;
+		$output .= "$indent</div>{$newline}";
 	}
 
+	/**
+	 * Starts the element output.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $output Passed by reference. Used to append additional content.
+	 * @param WP_Post  $item   Menu item data object.
+	 * @param int      $depth  Depth of menu item. Used for padding.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 * @param int      $id     Current item ID.
+	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		$html = '';
+		if ( 0 === $depth && ( 0 === strcasecmp( $item->attr_title, 'divider' ) || 0 === strcasecmp( $item->title, 'divider' ) ) ) {
+			$output .= $this->get_indent( $depth, $args ) . '<li role="presentation" class="divider">';
+		} elseif ( 0 === $depth && 0 === strcasecmp( $item->attr_title, 'dropdown-header' ) ) {
+			$output .= $this->get_indent( $depth, $args ) . '<li role="presentation" class="dropdown-header">' . esc_html( $item->title );
+		} elseif ( 0 === $depth && 0 === strcasecmp( $item->attr_title, 'disabled' ) ) {
+			$output .= $this->get_indent( $depth, $args ) . '<li role="presentation" class="disabled"><a href="#">' . esc_html( $item->title ) . '</a>';
+		} else {
+			$html = '';
 
-		parent::start_el( $html, $item, $depth, $args );
+			if ( $item->is_dropdown && 0 === $depth ) {
+				$slug = sanitize_title( $item->title );
 
-		if ( $item->is_dropdown && $depth === 0 ) {
-			$slug = sanitize_title( $item->title );
+				$this->current_label_id    = $slug . '-dropdown-label';
+				$this->current_dropdown_id = $slug . '-dropdown-menu';
 
-			$this->current_label_id    = $slug . '-dropdown-label';
-			$this->current_dropdown_id = $slug . '-dropdown-menu';
-
-			if ( false !== strpos( $html, '<a class="' ) ) {
-				$html = str_replace( '<a class="', '<a id="' . $this->current_label_id . '" data-toggle="dropdown" aria-controls="' . $this->current_dropdown_id . '" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle ', $html );
-			} else {
-				$html = str_replace( '<a', '<a id="' . $this->current_label_id . '" data-toggle="dropdown" aria-controls="' . $this->current_dropdown_id . '" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"', $html );
+				self::$a_atts_override = array(
+					'id'            => $this->current_label_id,
+					'class'         => self::$a_class . ' dropdown-toggle',
+					'data-toggle'   => 'dropdown',
+					'aria-controls' => $this->current_dropdown_id,
+					'aria-haspopup' => 'true',
+					'aria-expanded' => 'false',
+				);
+			} elseif ( $depth > 0 ) {
+				self::$a_atts_override = array(
+					'class' => 'dropdown-item',
+				);
 			}
-		} elseif ( $depth > 0 ) {
-			$html = preg_replace( '/<li(.*)>/iU', '', $html );
-		} elseif( stristr( $html, 'li class="divider' ) ) {
-			$html = preg_replace( '/<a[^>]*>.*?<\/a>/iU', '', $html );
-		} elseif( stristr( $html, 'li class="dropdown-header' ) ) {
-			$html = preg_replace( '/<a[^>]*>(.*)<\/a>/iU', '$1', $html );
-		}
 
-		$output .= $html;
+			parent::start_el( $html, $item, $depth, $args, $id );
+
+			if ( $depth > 0 ) {
+				$html = preg_replace( '/<li(.*)>/iU', '', $html );
+			}
+
+			$output .= $html;
+		}
 	}
 
+	/**
+	 * Ends the element output, if needed.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string   $output Passed by reference. Used to append additional content.
+	 * @param WP_Post  $item   Menu item data object. Not used.
+	 * @param int      $depth  Depth of menu item. Not Used.
+	 * @param stdClass $args   An object of wp_nav_menu() arguments.
+	 */
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$html = '';
-
-		parent::end_el( $html, $item, $depth, $args );
-
 		if ( $depth > 0 ) {
-			$html = str_replace( '</li>', '', $html );
+			$output .= $this->get_newline( $depth, $args );
+		} else {
+			parent::end_el( $output, $item, $depth, $args );
 		}
-
-		$output .= $html;
 	}
 
+	/**
+	 * Traverses elements to create list from elements.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param WP_Post $item              Menu item data object.
+	 * @param array   $children_elements List of elements to continue traversing.
+	 * @param int     $max_depth         Max depth to traverse.
+	 * @param int     $depth             Depth of current element.
+	 * @param array   $args              An array of arguments.
+	 * @param string  $output            Passed by reference. Used to append additional content.
+	 */
 	public function display_element( $item, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
-		$item->is_dropdown = ( ( !empty( $children_elements[ $item->ID ] ) && ( ( $depth + 1 ) < $max_depth || ( $max_depth === 0 ) ) ) );
+		if ( ! $item ) {
+			return;
+		}
+
+		$id_field = $this->db_fields['id'];
+		$id       = $item->$id_field;
+
+		$item->is_dropdown = ! empty( $children_elements[ $id ] ) && ( $depth + 1 < $max_depth || 0 === $max_depth );
 
 		if ( $item->is_dropdown ) {
 			$item->classes[] = 'dropdown';
@@ -90,6 +198,54 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 		parent::display_element( $item, $children_elements, $max_depth, $depth, $args, $output );
 	}
 
+	/**
+	 * Returns the indentation for a given depth.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param int      $depth Depth of menu item.
+	 * @param stdClass $args  An object of wp_nav_menu() arguments.
+	 * @return string The indentation string.
+	 */
+	private function get_indent( $depth, $args = array() ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+			return '';
+		}
+
+		return str_repeat( "\t", $depth );
+	}
+
+	/**
+	 * Returns the newline character for a given depth.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @param int      $depth Depth of menu item.
+	 * @param stdClass $args  An object of wp_nav_menu() arguments.
+	 * @return string The newline string.
+	 */
+	private function get_newline( $depth, $args = array() ) {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
+			return '';
+		}
+
+		return "\n";
+	}
+
+	/**
+	 * Renders a specific nav menu for given arguments.
+	 *
+	 * This method should be called instead of wp_nav_menu() to create a Bootstrap-compatible nav menu.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $args Array of wp_nav_menu() arguments.
+	 * @return string The nav menu output.
+	 */
 	public static function render( $args = array() ) {
 		if ( ! isset( $args['container'] ) ) {
 			$args['container'] = false;
@@ -134,12 +290,32 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 		return $output;
 	}
 
+	/**
+	 * Adds general filters to make nav menus compatible with Bootstrap and clean up some classes.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 */
 	public static function init() {
 		add_filter( 'nav_menu_css_class', array( __CLASS__, 'fix_css_classes' ), 10, 4 );
 		add_filter( 'nav_menu_link_attributes', array( __CLASS__, 'fix_link_attributes' ), 10, 4 );
 		add_filter( 'nav_menu_item_id', '__return_null' );
 	}
 
+	/**
+	 * Makes CSS classes of a nav menu item list element compatible with Bootstrap and replaces unnecessary bloat.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array    $classes Array of CSS classes.
+	 * @param WP_Post  $item    Menu item data object.
+	 * @param stdClass $args    An object of wp_nav_menu() arguments.
+	 * @param int      $depth   Depth of menu item.
+	 * @return array Modified CSS classes.
+	 */
 	public static function fix_css_classes( $classes, $item, $args, $depth ) {
 		$slug = sanitize_title( $item->title );
 
@@ -156,9 +332,23 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 		return array_filter( $classes, array( __CLASS__, 'is_class_valid' ) );
 	}
 
+	/**
+	 * Makes attributes of a nav menu item link compatible with Bootstrap.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array    $atts  Array of link attributes.
+	 * @param WP_Post  $item  Menu item data object.
+	 * @param stdClass $args  An object of wp_nav_menu() arguments.
+	 * @param int      $depth Depth of menu item.
+	 * @return array Modified link attributes.
+	 */
 	public static function fix_link_attributes( $atts, $item, $args, $depth ) {
-		if ( ! empty( self::$a_class_override ) ) {
-			$atts = array_merge( array( 'class' => self::$a_class_override ), $atts );
+		if ( ! empty( self::$a_atts_override ) ) {
+			$atts = array_merge( $atts, self::$a_atts_override );
+			self::$a_atts_override = array();
 		} elseif ( ! empty( self::$a_class ) ) {
 			$atts = array_merge( array( 'class' => self::$a_class ), $atts );
 		}
@@ -166,6 +356,18 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 		return $atts;
 	}
 
+	/**
+	 * Checks whether a string is a valid class.
+	 *
+	 * It is basically a check whether the trimmed version of the string is not empty.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @static
+	 *
+	 * @param string $class The class to check.
+	 * @return bool True if the class is valid, false otherwise.
+	 */
 	public static function is_class_valid( $class ) {
 		$class = trim( $class );
 
