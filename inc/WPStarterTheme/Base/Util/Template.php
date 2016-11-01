@@ -67,7 +67,7 @@ final class Template {
 
 		$filename = locate_template( $templates, false, false );
 		if ( ! $filename ) {
-			WPStarterTheme\Base\Theme::_doing_it_wrong( __METHOD__, sprintf( __( 'The template %s does not exist.', 'wp-starter-theme' ), $filename ) );
+			\WPStarterTheme\theme()->_doing_it_wrong( __METHOD__, sprintf( __( 'The template %s does not exist.', 'wp-starter-theme' ), $filename ) );
 			return;
 		}
 
@@ -245,7 +245,7 @@ final class Template {
 			} elseif ( is_object( $value ) && is_callable( array( $value, 'get_ID' ) ) ) {
 				$cache_args[ $key ] = call_user_func( array( $value, 'get_ID' ) );
 			} else {
-				WPStarterTheme\Base\Theme::_doing_it_wrong( __METHOD__, sprintf( __( 'The value for %1$s is not storable in the cache key for the template %2$s.', 'wp-starter-theme' ), $key, $slug ) );
+				\WPStarterTheme\theme()->_doing_it_wrong( __METHOD__, sprintf( __( 'The value for %1$s is not storable in the cache key for the template %2$s.', 'wp-starter-theme' ), $key, $slug ) );
 				break;
 			}
 		}
