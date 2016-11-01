@@ -11,16 +11,7 @@ namespace WPStarterTheme\Base;
  *
  * @since 1.0.0
  */
-final class AJAX {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
+final class AJAX extends ThemeUtilityBase {
 	/**
 	 * The prefix for the AJAX actions.
 	 *
@@ -61,9 +52,13 @@ final class AJAX {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @access private
+	 * @access public
+	 *
+	 * @param WPStarterTheme\Base\Theme $theme The theme instance.
 	 */
-	private function __construct() {
+	public function __construct( $theme ) {
+		parent::__construct( $theme );
+
 		$this->prefix = str_replace( '-', '_', 'wp-starter-theme' ) . '_';
 
 		$this->actions = array();

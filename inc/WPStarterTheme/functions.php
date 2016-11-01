@@ -7,7 +7,13 @@
 namespace WPStarterTheme;
 
 function theme() {
-	return Base\Theme::instance();
+	global $wp_starter_theme;
+
+	if ( ! isset( $wp_starter_theme ) ) {
+		$wp_starter_theme = new Base\Theme();
+	}
+
+	return $wp_starter_theme;
 }
 
 function add_image_size( $name, $width, $height, $crop = false, $selectable = false ) {

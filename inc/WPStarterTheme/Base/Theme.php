@@ -12,15 +12,6 @@ namespace WPStarterTheme\Base;
  * @since 1.0.0
  */
 final class Theme {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * Basic theme information.
 	 *
@@ -31,13 +22,64 @@ final class Theme {
 	private $info = array();
 
 	/**
-	 * Constructor.
+	 * The assets instance.
 	 *
 	 * @since 1.0.0
 	 * @access private
+	 * @var WPStarterTheme\Base\Assets
 	 */
-	private function __construct() {
+	private $assets;
+
+	/**
+	 * The customizer instance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var WPStarterTheme\Base\Customizer
+	 */
+	private $customizer;
+
+	/**
+	 * The AJAX instance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var WPStarterTheme\Base\AJAX
+	 */
+	private $ajax;
+
+	/**
+	 * The partials instance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var WPStarterTheme\Base\Partials
+	 */
+	private $partials;
+
+	/**
+	 * The plugin compatibility instance.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var WPStarterTheme\Base\PluginCompat
+	 */
+	private $plugin_compat;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function __construct() {
 		$this->info = wp_get_theme( get_template() );
+
+		$this->assets        = new Assets( $this );
+		$this->customizer    = new Customizer( $this );
+		$this->ajax          = new AJAX( $this );
+		$this->partials      = new Partials( $this );
+		$this->plugin_compat = new PluginCompat( $this );
 	}
 
 	/**
@@ -53,10 +95,11 @@ final class Theme {
 		Util\Shortcodes::init();
 		Util\BootstrapNavMenu::init();
 		Util\BootstrapGallery::init();
-		Assets::instance()->run();
-		Customizer::instance()->run();
-		AJAX::instance()->run();
-		PluginCompat::instance()->run();
+
+		$this->assets->run();
+		$this->customizer->run();
+		$this->ajax->run();
+		$this->plugin_compat->run();
 
 		add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ), 1 );
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
@@ -225,13 +268,33 @@ final class Theme {
 	}
 
 	/**
+	 * Returns the assets instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function assets() {
+		return $this->assets;
+	}
+
+	/**
 	 * Returns the customizer instance.
 	 *
 	 * @since 1.0.0
 	 * @access public
 	 */
 	public function customizer() {
-		return Customizer::instance();
+		return $this->customizer;
+	}
+
+	/**
+	 * Returns the AJAX instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function ajax() {
+		return $this->ajax;
 	}
 
 	/**
@@ -241,8 +304,16 @@ final class Theme {
 	 * @access public
 	 */
 	public function partials() {
-		return Partials::instance();
+		return $this->partials;
+	}
+
+	/**
+	 * Returns the plugin compatibility instance.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
+	public function plugin_compat() {
+		return $this->plugin_compat;
 	}
 }
-
-require_once dirname( dirname( __FILE__ ) ) . '/functions.php';

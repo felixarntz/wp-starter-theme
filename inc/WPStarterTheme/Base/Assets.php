@@ -11,24 +11,7 @@ namespace WPStarterTheme\Base;
  *
  * @since 1.0.0
  */
-final class Assets {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 1.0.0
-	 * @access private
-	 */
-	private function __construct() {}
-
+final class Assets extends ThemeUtilityBase {
 	/**
 	 * Adds the necessary hooks to initialize assets functionality.
 	 *
@@ -47,7 +30,7 @@ final class Assets {
 	 */
 	public function enqueue() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-		$version = Theme::instance()->get_info( 'Version' );
+		$version = $this->theme->get_info( 'Version' );
 		$dependencies = array( 'jquery', 'wp-util', 'fancybox' );
 
 		wp_enqueue_style( 'fancybox', Util\Path::get_url( 'assets/vendor/fancybox/source/jquery.fancybox.css' ), array(), '2.1.5' );
@@ -73,12 +56,10 @@ final class Assets {
 	 * @return array Script vars.
 	 */
 	private function get_script_vars() {
-		$theme = Theme::instance();
-
 		$vars = array(
-			'name'			=> $theme->get_info( 'Name' ),
-			'description'	=> $theme->get_info( 'Description' ),
-			'version'		=> $theme->get_info( 'Version' ),
+			'name'			=> $this->theme->get_info( 'Name' ),
+			'description'	=> $this->theme->get_info( 'Description' ),
+			'version'		=> $this->theme->get_info( 'Version' ),
 			'ajax'			=> array(
 				'url'			=> admin_url( 'admin-ajax.php' ),
 				'nonce'			=> wp_create_nonce( 'wp-starter-theme' ),

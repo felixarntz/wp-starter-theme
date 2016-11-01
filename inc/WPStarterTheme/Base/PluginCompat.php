@@ -11,24 +11,7 @@ namespace WPStarterTheme\Base;
  *
  * @since 1.0.0
  */
-final class PluginCompat {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 1.0.0
-	 * @access private
-	 */
-	private function __construct() {}
-
+final class PluginCompat extends ThemeUtilityBase {
 	/**
 	 * Adds the necessary hooks to initialize plugin compatibility functionality.
 	 *

@@ -11,24 +11,7 @@ namespace WPStarterTheme\Base;
  *
  * @since 1.0.0
  */
-final class Customizer {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 1.0.0
-	 * @access private
-	 */
-	private function __construct() {}
-
+final class Customizer extends ThemeUtilityBase {
 	/**
 	 * Adds the necessary hooks to initialize customizer functionality.
 	 *
@@ -65,6 +48,8 @@ final class Customizer {
 	 * @param WP_Customize_Manager $wp_customize The customize manager instance.
 	 */
 	public function customize_register( $wp_customize ) {
+		$partials = $this->theme->partials();
+
 		$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
 		$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
@@ -72,12 +57,12 @@ final class Customizer {
 			$wp_customize->selective_refresh->add_partial( 'blogname', array(
 				'selector'				=> '.site-title a',
 				'container_inclusive'	=> false,
-				'render_callback'		=> array( Partials::instance(), 'render_blogname' ),
+				'render_callback'		=> array( $partials, 'render_blogname' ),
 			) );
 			$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
 				'selector'				=> '.site-description',
 				'container_inclusive'	=> false,
-				'render_callback'		=> array( Partials::instance(), 'render_blogdescription' ),
+				'render_callback'		=> array( $partials, 'render_blogdescription' ),
 			) );
 		}
 	}
@@ -109,7 +94,7 @@ final class Customizer {
 	 */
 	public function customize_localize_script() {
 		wp_localize_script( 'wp-starter-theme-customize-preview', lcfirst( 'WPStarterTheme' ), array(
-			'nonces'	=> AJAX::instance()->get_nonces(),
+			'nonces'	=> $this->theme->ajax()->get_nonces(),
 		) );
 	}
 }

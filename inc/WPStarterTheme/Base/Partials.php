@@ -11,23 +11,15 @@ namespace WPStarterTheme\Base;
  *
  * @since 1.0.0
  */
-final class Partials {
-	private static $instance = null;
-
-	public static function instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
+final class Partials extends ThemeUtilityBase {
 	/**
-	 * Constructor.
+	 * Adds the necessary hooks.
 	 *
 	 * @since 1.0.0
-	 * @access private
+	 * @access public
 	 */
-	private function __construct() {
+	public function run() {
+		// Empty method body.
 	}
 
 	/**

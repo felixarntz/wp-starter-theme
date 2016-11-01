@@ -43,5 +43,7 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 	require_once dirname( __FILE__ ) . '/vendor/felixarntz/wp-objects/wp-objects.php';
 }
 
+require_once dirname( __FILE__ ) . '/inc/WPStarterTheme/functions.php';
+
 // run the theme
-call_user_func( array( 'WPStarterTheme\Base\Theme', 'instance' ) )->run();
+call_user_func( 'WPStarterTheme\theme' )->run();
