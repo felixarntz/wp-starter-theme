@@ -6,6 +6,11 @@
 
 namespace WPStarterTheme\Base;
 
+/**
+ * Class to handle customizer functionality.
+ *
+ * @since 1.0.0
+ */
 final class Customizer {
 	private static $instance = null;
 
@@ -16,8 +21,20 @@ final class Customizer {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
 	private function __construct() {}
 
+	/**
+	 * Adds the necessary hooks to initialize customizer functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function run() {
 		add_action( 'wpcd', array( $this, 'add_customize_components' ), 10, 1 );
 		add_action( 'customize_register', array( $this, 'customize_register' ), 10, 1 );
@@ -25,10 +42,28 @@ final class Customizer {
 		add_action( 'customize_preview_init', array( $this, 'customize_localize_script' ), 100, 1 );
 	}
 
+	/**
+	 * Adds customizer components via the Customizer Definitely library.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 *
+	 * @param WPCD\App $wpcd The Customizer Definitely instance.
+	 */
 	public function add_customize_components( $wpcd ) {
 
 	}
 
+	/**
+	 * Registers and adjusts several customizer fields.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 *
+	 * @param WP_Customize_Manager $wp_customize The customize manager instance.
+	 */
 	public function customize_register( $wp_customize ) {
 		$wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
 		$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
@@ -47,6 +82,16 @@ final class Customizer {
 		}
 	}
 
+	/**
+	 * Registers the additional customizer script via Customizer Definitely.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 *
+	 * @param array $scripts Array of script slugs and their URLs.
+	 * @return array The modified array.
+	 */
 	public function customize_script( $scripts ) {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
@@ -55,6 +100,13 @@ final class Customizer {
 		return $scripts;
 	}
 
+	/**
+	 * Adds script variables to the customizer script.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 */
 	public function customize_localize_script() {
 		wp_localize_script( 'wp-starter-theme-customize-preview', lcfirst( 'WPStarterTheme' ), array(
 			'nonces'	=> AJAX::instance()->get_nonces(),

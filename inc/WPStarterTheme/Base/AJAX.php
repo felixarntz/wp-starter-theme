@@ -6,6 +6,11 @@
 
 namespace WPStarterTheme\Base;
 
+/**
+ * Class to handle AJAX actions and requests.
+ *
+ * @since 1.0.0
+ */
 final class AJAX {
 	private static $instance = null;
 
@@ -16,13 +21,48 @@ final class AJAX {
 		return self::$instance;
 	}
 
+	/**
+	 * The prefix for the AJAX actions.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var string
+	 */
 	private $prefix = '';
 
+	/**
+	 * The names of all AJAX actions.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var array
+	 */
 	private $actions = array();
+
+	/**
+	 * The names of all AJAX actions that may run for non-logged-in users.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var array
+	 */
 	private $actions_nopriv = array();
 
+	/**
+	 * Nonces for the AJAX actions.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 * @var array
+	 */
 	private $nonces = array();
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
 	private function __construct() {
 		$this->prefix = str_replace( '-', '_', 'wp-starter-theme' ) . '_';
 
@@ -30,10 +70,22 @@ final class AJAX {
 		$this->actions_nopriv = array();
 	}
 
+	/**
+	 * Adds the necessary hooks to initialize AJAX functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function run() {
 		add_action( 'admin_init', array( $this, 'add_actions' ) );
 	}
 
+	/**
+	 * Adds hooks for all AJAX actions.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function add_actions() {
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
 			return;
@@ -47,6 +99,13 @@ final class AJAX {
 		}
 	}
 
+	/**
+	 * Handles an AJAX request.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 */
 	public function request() {
 		$action = str_replace( $this->prefix, '', $_REQUEST['action'] );
 
@@ -75,6 +134,15 @@ final class AJAX {
 		wp_send_json_success( $response );
 	}
 
+	/**
+	 * Returns the nonce for a given AJAX action.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param string $action Name of the action.
+	 * @return string Nonce for the action.
+	 */
 	public function get_nonce( $action ) {
 		if ( ! isset( $this->nonces[ $action ] ) ) {
 			$this->nonces[ $action ] = wp_create_nonce( 'ajax_' . $this->prefix . $action );
@@ -83,6 +151,15 @@ final class AJAX {
 		return $this->nonces[ $action ];
 	}
 
+	/**
+	 * Returns the nonces for all AJAX actions.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 *
+	 * @param bool $nopriv Optional. Whether to include nonces for non-logged-in user actions. Default false.
+	 * @return array Associative array of action names and their nonces.
+	 */
 	public function get_nonces( $nopriv = false ) {
 		$actions = $nopriv ? $this->actions_nopriv : $this->actions;
 

@@ -6,6 +6,11 @@
 
 namespace WPStarterTheme\Base;
 
+/**
+ * Class to handle theme assets.
+ *
+ * @since 1.0.0
+ */
 final class Assets {
 	private static $instance = null;
 
@@ -16,12 +21,30 @@ final class Assets {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
 	private function __construct() {}
 
+	/**
+	 * Adds the necessary hooks to initialize assets functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function run() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue' ) );
 	}
 
+	/**
+	 * Enqueues the necessary scripts and stylesheets.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function enqueue() {
 		$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$version = Theme::instance()->get_info( 'Version' );
@@ -41,6 +64,14 @@ final class Assets {
 		}
 	}
 
+	/**
+	 * Returns script variables to pass to the main JavaScript theme file.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 *
+	 * @return array Script vars.
+	 */
 	private function get_script_vars() {
 		$theme = Theme::instance();
 
