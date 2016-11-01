@@ -6,6 +6,11 @@
 
 namespace WPStarterTheme\Base;
 
+/**
+ * Class to render partials that go beyond a template.
+ *
+ * @since 1.0.0
+ */
 final class Partials {
 	private static $instance = null;
 
@@ -16,17 +21,41 @@ final class Partials {
 		return self::$instance;
 	}
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
 	private function __construct() {
 	}
 
+	/**
+	 * Renders the site title.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function render_blogname() {
 		bloginfo( 'name' );
 	}
 
+	/**
+	 * Renders the site description.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function render_blogdescription() {
 		bloginfo( 'description' );
 	}
 
+	/**
+	 * Renders a regular posts loop.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 */
 	public function render_loop() {
 		while ( have_posts() ) {
 			the_post();
