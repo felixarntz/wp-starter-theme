@@ -168,6 +168,7 @@ final class Theme {
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
 		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'customize-selective-refresh-widgets' );
 	}
 
 	/**
