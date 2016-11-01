@@ -30,8 +30,8 @@ namespace WPStarterTheme;
 				<?php endif; ?>
 
 				<?php if ( has_nav_menu( 'primary' ) ) : ?>
-					<nav role="navigation">
-						<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'list-inline' ) ); ?>
+					<nav class="navbar navbar-light bg-faded" role="navigation">
+						<?php wp_nav_menu( array( 'theme_location' => 'primary', 'menu_class' => 'nav navbar-nav' ) ); ?>
 					</nav>
 				<?php endif; ?>
 

@@ -91,7 +91,7 @@ var sass = {
 };
 
 var js = {
-	files: [ './assets/src/js/**/*.js', '!./assets/src/js/customize-preview.js' ],
+	files: [ /*'./assets/vendor/bootstrap/js/src/*.js',*/ './assets/src/js/**/*.js', '!./assets/src/js/customize-preview.js' ],
 	src: './assets/src/js/',
 	dst: './assets/dist/js/',
 	lint: require( 'gulp-jshint' ),

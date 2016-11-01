@@ -30,6 +30,8 @@ final class Assets {
 		wp_enqueue_style( 'fancybox', Util\Path::get_url( 'assets/vendor/fancybox/source/jquery.fancybox.css' ), array(), '2.1.5' );
 		wp_enqueue_script( 'fancybox', Util\Path::get_url( 'assets/vendor/fancybox/source/jquery.fancybox.pack.js' ), array( 'jquery' ), '2.1.5', true );
 
+		wp_enqueue_script( 'bootstrap', Util\Path::get_url( 'assets/vendor/bootstrap/dist/js/bootstrap' . $min . '.js' ), array( 'jquery' ), '4.0.0-alpha.5', true );
+
 		wp_enqueue_style( 'wp-starter-theme', Util\Path::get_url( 'assets/dist/css/app' . $min . '.css' ), array(), $version, 'all' );
 		wp_enqueue_script( 'wp-starter-theme', Util\Path::get_url( 'assets/dist/js/app' . $min . '.js' ), $dependencies, $version, true );
 		wp_localize_script( 'wp-starter-theme', 'wp_theme', $this->get_script_vars() );

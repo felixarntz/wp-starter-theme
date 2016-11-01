@@ -9,13 +9,34 @@ namespace WPStarterTheme\Base\Util;
 final class BootstrapNavMenu extends \Walker_Nav_Menu {
 	private static $li_class = '';
 	private static $a_class = '';
+	private static $a_class_override = '';
+
+	private $current_label_id = '';
+	private $current_dropdown_id = '';
 
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$html = '';
 
 		parent::start_lvl( $html, $depth, $args );
 
-		$html = str_replace( 'sub-menu', 'dropdown-menu', $html );
+		$html = str_replace( '<ul class="sub-menu"', '<div id="' . $this->current_dropdown_id . '" class="dropdown-menu" aria-labelledby="' . $this->current_label_id . '"', $html );
+
+		$this->current_label_id    = '';
+		$this->current_dropdown_id = '';
+
+		self::$a_class_override = 'dropdown-item';
+
+		$output .= $html;
+	}
+
+	public function end_lvl( &$output, $depth = 0, $args = array() ) {
+		$html = '';
+
+		parent::end_lvl( $html, $depth, $args );
+
+		$html = str_replace( '</ul>', '</div>', $html );
+
+		self::$a_class_override = '';
 
 		$output .= $html;
 	}
@@ -25,13 +46,19 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 
 		parent::start_el( $html, $item, $depth, $args );
 
-		if ( $item->is_dropdown && ( $depth === 0 ) ) {
+		if ( $item->is_dropdown && $depth === 0 ) {
+			$slug = sanitize_title( $item->title );
+
+			$this->current_label_id    = $slug . '-dropdown-label';
+			$this->current_dropdown_id = $slug . '-dropdown-menu';
+
 			if ( false !== strpos( $html, '<a class="' ) ) {
-				$html = str_replace( '<a class="', '<a data-toggle="dropdown" data-target="#" class="dropdown-toggle ', $html );
+				$html = str_replace( '<a class="', '<a id="' . $this->current_label_id . '" data-toggle="dropdown" aria-controls="' . $this->current_dropdown_id . '" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle ', $html );
 			} else {
-				$html = str_replace( '<a', '<a class="dropdown-toggle" data-toggle="dropdown" data-target="#"', $html );
+				$html = str_replace( '<a', '<a id="' . $this->current_label_id . '" data-toggle="dropdown" aria-controls="' . $this->current_dropdown_id . '" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"', $html );
 			}
-			$html = str_replace( '</a>', ' <b class="caret"></b></a>', $html );
+		} elseif ( $depth > 0 ) {
+			$html = preg_replace( '/<li(.*)>/iU', '', $html );
 		} elseif( stristr( $html, 'li class="divider' ) ) {
 			$html = preg_replace( '/<a[^>]*>.*?<\/a>/iU', '', $html );
 		} elseif( stristr( $html, 'li class="dropdown-header' ) ) {
@@ -41,14 +68,26 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 		$output .= $html;
 	}
 
-	public function display_element( $element, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
-		$element->is_dropdown = ( ( !empty( $children_elements[ $element->ID ] ) && ( ( $depth + 1 ) < $max_depth || ( $max_depth === 0 ) ) ) );
+	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
+		$html = '';
 
-		if ( $element->is_dropdown ) {
-			$element->classes[] = 'dropdown';
+		parent::end_el( $html, $item, $depth, $args );
+
+		if ( $depth > 0 ) {
+			$html = str_replace( '</li>', '', $html );
 		}
 
-		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
+		$output .= $html;
+	}
+
+	public function display_element( $item, &$children_elements, $max_depth, $depth = 0, $args, &$output ) {
+		$item->is_dropdown = ( ( !empty( $children_elements[ $item->ID ] ) && ( ( $depth + 1 ) < $max_depth || ( $max_depth === 0 ) ) ) );
+
+		if ( $item->is_dropdown ) {
+			$item->classes[] = 'dropdown';
+		}
+
+		parent::display_element( $item, $children_elements, $max_depth, $depth, $args, $output );
 	}
 
 	public static function render( $args = array() ) {
@@ -118,7 +157,9 @@ final class BootstrapNavMenu extends \Walker_Nav_Menu {
 	}
 
 	public static function fix_link_attributes( $atts, $item, $args, $depth ) {
-		if ( ! empty( self::$a_class ) ) {
+		if ( ! empty( self::$a_class_override ) ) {
+			$atts = array_merge( array( 'class' => self::$a_class_override ), $atts );
+		} elseif ( ! empty( self::$a_class ) ) {
 			$atts = array_merge( array( 'class' => self::$a_class ), $atts );
 		}
 
