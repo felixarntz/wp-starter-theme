@@ -39,10 +39,6 @@ final class Assets {
 		if ( is_singular() ) {
 			wp_enqueue_script( 'comment-reply' );
 		}
-
-		if ( WP_DEBUG ) {
-			wp_enqueue_script( 'livereload', untrailingslashit( home_url() ) . ':35729/livereload.js?snipver=1', array(), false, true );
-		}
 	}
 
 	private function get_script_vars() {
