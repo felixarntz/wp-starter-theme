@@ -19,8 +19,42 @@ final class PluginCompat extends ThemeUtilityBase {
 	 * @access public
 	 */
 	public function run() {
+		add_action( 'after_setup_theme', array( $this, 'jetpack_theme_support' ) );
+		add_action( 'after_setup_theme', array( $this, 'frontkit_theme_support' ) );
+
 		add_filter( 'give_display_checkout_button', array( $this, 'give_button' ) );
 		add_filter( 'give_checkout_button_purchase', array( $this, 'give_button' ) );
+	}
+
+	/**
+	 * Adds theme support for Jetpack functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 */
+	public function jetpack_theme_support() {
+		add_theme_support( 'infinite-scroll', array(
+			'container'      => 'posts-list',
+			'footer'         => false,
+			'footer_widgets' => false,
+			'wrapper'        => false,
+			'render'         => array( $this->theme->partials(), 'render_loop' ),
+		) );
+	}
+
+	/**
+	 * Adds theme support for Frontkit functionality.
+	 *
+	 * @since 1.0.0
+	 * @access public
+	 * @internal
+	 */
+	public function frontkit_theme_support() {
+		add_theme_support( 'frontkit', array(
+			'title'   => '.single-post .post-title',
+			'content' => '.single-post .post-content',
+		) );
 	}
 
 	/**

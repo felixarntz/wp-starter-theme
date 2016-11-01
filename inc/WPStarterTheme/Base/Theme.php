@@ -157,19 +157,6 @@ final class Theme {
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
 		add_theme_support( 'post-formats', array( 'aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat' ) );
 		add_theme_support( 'post-thumbnails' );
-
-		/* Support for plugins. */
-		add_theme_support( 'infinite-scroll', array(
-			'container'      => 'posts-list',
-			'footer'         => false,
-			'footer_widgets' => false,
-			'wrapper'        => false,
-			'render'         => array( $this->partials(), 'render_loop' ),
-		) );
-		add_theme_support( 'frontkit', array(
-			'title'   => '.single-post .post-title',
-			'content' => '.single-post .post-content',
-		) );
 	}
 
 	/**
