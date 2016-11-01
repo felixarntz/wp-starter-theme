@@ -37,7 +37,7 @@ final class Theme {
 	 * @access private
 	 */
 	private function __construct() {
-		$this->info = wp_get_theme();
+		$this->info = wp_get_theme( get_template() );
 	}
 
 	/**
