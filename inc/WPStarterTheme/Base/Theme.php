@@ -116,6 +116,7 @@ final class Theme {
 		$this->load_textdomain();
 		$this->add_editor_style();
 		$this->add_image_sizes();
+		$this->content_width();
 		$this->add_theme_support();
 		$this->register_nav_menus();
 	}
@@ -139,6 +140,16 @@ final class Theme {
 	 */
 	private function load_textdomain() {
 		load_theme_textdomain( 'wp-starter-theme', Util\Path::get_path( 'languages' ) );
+	}
+
+	/**
+	 * Sets up the $content_width global.
+	 *
+	 * @since 1.0.0
+	 * @access private
+	 */
+	private function content_width() {
+		$GLOBALS['content_width'] = 720;
 	}
 
 	/**
